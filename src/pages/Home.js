@@ -9,6 +9,17 @@ const MainWrapper = styled.div`
     position: relative;
     box-sizing: border-box;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* border: 2px solid green; */
+`;
+const ContentWrapper = styled.div`
+    height: 100%;
+    width: 60%;
+    margin-top: 1rem;
+    /* border: 1px solid red; */
 `;
 
 const Home = () => {
@@ -23,12 +34,13 @@ const Home = () => {
 
     return (
         <MainWrapper>
-            <h1>Home page</h1>
-            {info && info.map(post => (
-                <PostsCard key={post.id}>
-                    <p>{post.postContent}</p>
-                </PostsCard>
-            ))}
+            <ContentWrapper>
+                {info && info.map(post => (
+                    <PostsCard key={post.postId}>
+                        {post.postContent}
+                    </PostsCard>
+                ))}
+            </ContentWrapper>
         </MainWrapper>
     )
 }
