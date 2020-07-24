@@ -1,23 +1,35 @@
-import React, { useState } from 'react'
-import axios from 'axios'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
+
+// components
+import PostsCard from '../components/PostsCard';
+
+const MainWrapper = styled.div`
+    position: relative;
+    box-sizing: border-box;
+    height: 100%;
+`;
 
 const Home = () => {
-    const [info, setInfo] = useState()
+    const [info, setInfo] = useState();
+
+    useEffect(() => {
+        axios.get('http://localhost:1337/api/post/')
+        .then(res => {
+            setInfo(res.data)
+        })
+    }, [])
 
     return (
-        <div>
+        <MainWrapper>
             <h1>Home page</h1>
-            <button onClick={() => {
-                axios.get('http://localhost:1337/api/post/')
-                    .then(res => {
-                        setInfo(res.data)
-                    })
-            }}>press for posts</button>
             {info && info.map(post => (
-                <p key={post.id}>{post.postContent}</p>
-                
+                <PostsCard key={post.id}>
+                    <p>{post.postContent}</p>
+                </PostsCard>
             ))}
-        </div>
+        </MainWrapper>
     )
 }
 

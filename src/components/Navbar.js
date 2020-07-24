@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 
 const NavWrapper = styled.div`
-    /* background: #0277bd; */
     background-image: ${({ theme }) => 
         `linear-gradient(to bottom, ${theme.light.secondary}, 98%, ${theme.light.primary})`
     };
