@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 
 const NavWrapper = styled.div`
-    /* background: #0277bd; */
     background-image: ${({ theme }) => 
-        `linear-gradient(to bottom, ${theme.light.secondary}, 98%, ${theme.light.primary})`
+        `linear-gradient(to bottom, ${theme.light.secondary}, 85%, ${theme.light.primary})`
     };
     height: 3.5rem;
     display: flex;
