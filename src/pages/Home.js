@@ -4,17 +4,8 @@ import styled from 'styled-components';
 
 // components
 import PostsCard from '../components/PostsCard';
+import { MainWrapper } from '../components/styledHelpers/index';
 
-const MainWrapper = styled.div`
-    position: relative;
-    box-sizing: border-box;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* justify-content: center; */
-    /* border: 2px solid green; */
-`;
 const ContentWrapper = styled.div`
     height: 100%;
     width: 75%;
