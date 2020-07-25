@@ -1,11 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const register = () => {
+const Register = () => {
+    const [imgSrc, setImgSrc] = useState();
+    const [prevImg, setPrevImg] = useState();
+
+    const handleImageUpload = e => {
+        if(e.target.files.length === 0) {
+            e.target.files = prevImg;
+            return;
+        }
+        if(e.target.files) {
+            const file = e.target.files
+            setPrevImg(file)
+        }
+
+        const imgUrl = URL.createObjectURL(e.target.files[0]);
+        setImgSrc(imgUrl);
+    }
+
     return (
         <div>
-            <h1>Register page</h1>
+            <form>
+                <input type='file' onChange={handleImageUpload}/>
+
+            </form>
+            {imgSrc && <img src={imgSrc} alt='user'/> }
         </div>
     )
 }
 
-export default register
+export default Register;
