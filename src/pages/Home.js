@@ -12,14 +12,27 @@ const MainWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
     /* border: 2px solid green; */
 `;
 const ContentWrapper = styled.div`
     height: 100%;
-    width: 60%;
+    width: 75%;
     margin-top: 1rem;
+    display: flex;
+    justify-content: center;
     /* border: 1px solid red; */
+`;
+const Seperator = styled.div`
+    /* border: 1px solid green; */
+    width: ${props => props.small 
+        ? '30%' 
+        : props.medium 
+            ? '40%' 
+            : '60%'
+    };
+    padding: ${props => props.padding};
+    box-sizing: border-box;
 `;
 
 const Home = () => {
@@ -35,11 +48,14 @@ const Home = () => {
     return (
         <MainWrapper>
             <ContentWrapper>
-                {info && info.map(post => (
-                    <PostsCard key={post.postId}>
-                        {post.postContent}
-                    </PostsCard>
-                ))}
+                <Seperator >
+                    {info && info.map(post => (
+                        <PostsCard key={post.postId} post={post}/>
+                    ))}
+                </Seperator>
+                <Seperator medium padding='0 0 0 1rem'>
+                    Profile coming soon...
+                </Seperator>
             </ContentWrapper>
         </MainWrapper>
     )
