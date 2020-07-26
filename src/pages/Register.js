@@ -23,13 +23,22 @@ const Register = () => {
             e.target.files = imgInfo.imgFile;
             return;
         }
+
+
+        if(e.target.files[0].type === 'image/jpg' 
+          || e.target.files[0].type === 'image/jpeg' 
+          || e.target.files[0].type === 'image/png') {
+
+            const file = e.target.files
+            const imgUrl = URL.createObjectURL(e.target.files[0]);
+            setImgInfo({ 
+                imgSrc: imgUrl, 
+                imgFile: file
+            });
+            return;
+        }
+        return;
         
-        const file = e.target.files
-        const imgUrl = URL.createObjectURL(e.target.files[0]);
-        setImgInfo({ 
-            imgSrc: imgUrl, 
-            imgFile: file
-        });
     }
     const handleChange = e => {
         setNewUser({

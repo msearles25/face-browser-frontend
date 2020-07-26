@@ -12,7 +12,6 @@ export const Input = styled.input`
     border: none;
     width: 100%;
     border-bottom: 1px solid ${props => props.border ? props.border : props.theme.light.primary};
-    ${props=> console.log(props)}
     background: ${props => props.theme.light.lightgray};
     padding: 5px;
     transition: 0.3s;
