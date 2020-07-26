@@ -7,7 +7,7 @@ import Button from '../components/styled-components/Button';
 import { InputContainer, Input, InputError } from '../components/styled-components/Input';
 import { Form, FormSeparator, Img } from '../components/styled-components/Form';
 
-const Register = () => {
+const Register = props => {
     const [imgInfo, setImgInfo] = useState({
         imgSrc: null,
         imgFile: null
@@ -75,6 +75,7 @@ const Register = () => {
                 imageUrl: userImage
             });
             localStorage.setItem('token', user.data.token)
+            props.history.push('/')
         } 
         catch(error) {
             setErrors({
