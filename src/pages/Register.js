@@ -17,6 +17,7 @@ const FormSeparator = styled.div`
     box-sizing: border-box;
     flex-direction: column;
     justify-content: space-between;
+    margin: 10px;
     /* align-items:center; */
     width: calc(100% / 2);
     /* border:1px solid green; */
@@ -24,17 +25,28 @@ const FormSeparator = styled.div`
 
 const Img = styled.img`
     height: 200px;
-    width: 200px;
+    width: 100%;
     margin-bottom: 1rem;
 `;
 
 const Input = styled.input`
-    height: 1.8rem;
-    font-size: 1rem;
+    box-sizing: border-box;
+    height: 2rem;
+    font-size: 1.2rem;
     border: none;
+    width: 100%;
     border-bottom: 1px solid ${props => props.theme.light.primary};
     background: ${props => props.theme.light.lightgray};
-    padding: 3px;
+    padding: 5px;
+`;
+
+const Button = styled.button`
+    height: 30px;
+    width: 100%;
+    cursor: pointer;
+    color: ${props => props.primary ? props.theme.light.textContrast : props.theme.light.primary};
+    background: ${props => props.primary ? props.theme.light.primary : props.theme.light.lightgray};
+    border: 1px solid ${props => props.theme.light.primary};
 `;
 
 const Register = () => {
@@ -115,14 +127,14 @@ const Register = () => {
                 <FormSeparator>
                     <Img src={imgInfo.imgSrc ? imgInfo.imgSrc : process.env.REACT_APP_DEFAULT_IMAGE } alt='user'/> 
                     <input hidden='hidden' type='file' onChange={handleImageUpload} ref={imageSelectHandler}/>
-                    <button onClick={() => imageSelectHandler.current.click()}>Chose Image</button>
+                    <Button primary onClick={() => imageSelectHandler.current.click()}>Chose Image</Button>
                 </FormSeparator>
                 <FormSeparator>
                     <Input type='text' name='userHandle' placeholder='Handle' onChange={handleChange}/>
                     <Input type='email' name='email' placeholder='Email' onChange={handleChange}/>
                     <Input type='password' name='password' placeholder='Password' onChange={handleChange}/>
                     <Input type='password' name='confirmPassword' placeholder='Confirm Password' onChange={handleChange}/>
-                    <button type='submit'>Register</button>
+                    <Button type='submit'>Register</Button>
                 </FormSeparator>
             </Form>
         </MainWrapper>
