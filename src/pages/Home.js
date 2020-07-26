@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 // components
 import PostsCard from '../components/PostsCard';
-import { MainWrapper } from '../components/styledHelpers/index';
+import { MainWrapper } from '../style/elements';
 
 const ContentWrapper = styled.div`
     height: 100%;
@@ -14,7 +14,7 @@ const ContentWrapper = styled.div`
     justify-content: center;
     /* border: 1px solid red; */
 `;
-const Seperator = styled.div`
+const Separator = styled.div`
     /* border: 1px solid green; */
     width: ${props => props.small 
         ? '30%' 
@@ -37,16 +37,20 @@ const Home = () => {
     }, [])
 
     return (
-        <MainWrapper>
+        <MainWrapper 
+            flex 
+            flexDir='column' 
+            alignFlex='center'
+        >
             <ContentWrapper>
-                <Seperator >
+                <Separator >
                     {info && info.map(post => (
                         <PostsCard key={post.postId} post={post}/>
                     ))}
-                </Seperator>
-                <Seperator medium padding='0 0 0 1rem'>
+                </Separator>
+                <Separator medium padding='0 0 0 1rem'>
                     Profile coming soon...
-                </Seperator>
+                </Separator>
             </ContentWrapper>
         </MainWrapper>
     )

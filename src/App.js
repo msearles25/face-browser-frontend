@@ -9,7 +9,7 @@ import Register from './pages/Register';
 
 // styled components
 import { ThemeProvider } from 'styled-components';
-import Theme from './theme/theme';
+import Theme from './style/theme';
 
 function App() {
   return (
