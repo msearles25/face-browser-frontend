@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 const NavWrapper = styled.div`
     background-image: ${({ theme }) => 
-        `linear-gradient(to bottom, ${theme.light.secondary}, 85%, ${theme.light.primary})`
+        `linear-gradient(to bottom, ${theme.light.navBlend}, 85%, ${theme.light.primary})`
     };
     height: 3.5rem;
     display: flex;
