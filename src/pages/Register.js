@@ -4,16 +4,16 @@ import axios from 'axios';
 // styled components imports
 import { MainWrapper } from '../style/elements';
 import Button from '../components/styled-components/Button';
-import Input from '../components/styled-components/Input';
+import { InputContainer, Input, InputError } from '../components/styled-components/Input';
 import { Form, FormSeparator, Img } from '../components/styled-components/Form';
 
-const Register = () => {
+const Register = props => {
     const [imgInfo, setImgInfo] = useState({
         imgSrc: null,
         imgFile: null
     });
-    const [newUser, setNewUser] = useState()
-
+    const [newUser, setNewUser] = useState();
+    const [errors, setErrors] = useState();
     //using a reference to the file input so I can use a custom button
     const imageSelectHandler = useRef(null);
 
@@ -23,13 +23,22 @@ const Register = () => {
             e.target.files = imgInfo.imgFile;
             return;
         }
+
+
+        if(e.target.files[0].type === 'image/jpg' 
+          || e.target.files[0].type === 'image/jpeg' 
+          || e.target.files[0].type === 'image/png') {
+
+            const file = e.target.files
+            const imgUrl = URL.createObjectURL(e.target.files[0]);
+            setImgInfo({ 
+                imgSrc: imgUrl, 
+                imgFile: file
+            });
+            return;
+        }
+        return;
         
-        const file = e.target.files
-        const imgUrl = URL.createObjectURL(e.target.files[0]);
-        setImgInfo({ 
-            imgSrc: imgUrl, 
-            imgFile: file
-        });
     }
     const handleChange = e => {
         setNewUser({
@@ -61,13 +70,17 @@ const Register = () => {
         
         try {
             const userImage = await imageUpload();
-            await axios.post('http://localhost:1337/api/auth/register', {
+            const user = await axios.post('http://localhost:1337/api/auth/register', {
                 ...newUser,
                 imageUrl: userImage
             });
+            localStorage.setItem('token', user.data.token)
+            props.history.push('/')
         } 
         catch(error) {
-            console.error(error.response)
+            setErrors({
+                ...error.response.data.message
+            }, console.log(errors))
         }
     }
     
@@ -80,15 +93,90 @@ const Register = () => {
         >
             <Form onSubmit={handleSubmit}>
                 <FormSeparator>
-                    <Img src={imgInfo.imgSrc ? imgInfo.imgSrc : process.env.REACT_APP_DEFAULT_IMAGE } alt='user'/> 
-                    <input hidden='hidden' type='file' onChange={handleImageUpload} ref={imageSelectHandler}/>
-                    <Button type='button' primary onClick={() => imageSelectHandler.current.click()}>Chose Image</Button>
+                    <Img 
+                    src={imgInfo.imgSrc 
+                        ? imgInfo.imgSrc 
+                        : process.env.REACT_APP_DEFAULT_IMAGE 
+                    } 
+                    alt='user'/> 
+                    <input 
+                        hidden='hidden' 
+                        type='file' 
+                        onChange={handleImageUpload} 
+                        ref={imageSelectHandler}
+                    />
+                    <Button 
+                        type='button' 
+                        primary onClick={() => 
+                            imageSelectHandler.current.click()
+                    }>
+                                Chose Image
+                    </Button>
                 </FormSeparator>
                 <FormSeparator>
-                    <Input type='text' name='userHandle' placeholder='Handle' onChange={handleChange}/>
-                    <Input type='email' name='email' placeholder='Email' onChange={handleChange}/>
-                    <Input type='password' name='password' placeholder='Password' onChange={handleChange}/>
-                    <Input type='password' name='confirmPassword' placeholder='Confirm Password' onChange={handleChange}/>
+                    <InputContainer>
+                        <Input 
+                            type='text' 
+                            name='userHandle' 
+                            placeholder='Handle' 
+                            onChange={handleChange}
+                            border={errors && errors.userHandle ? 'red' : null}
+                        />
+                        {errors && errors.userHandle 
+                            ? <InputError bottom='-10' toolTipTop='32'>{errors.userHandle}</InputError> 
+                            : null
+                        }
+                    </InputContainer>
+                    <InputContainer>
+                        <Input 
+                            type='text' 
+                            name='email' 
+                            placeholder='Email' 
+                            onChange={handleChange}
+                            border={errors && errors.email ? 'red' : null}
+                        />
+                        {errors && errors.email 
+                            ? <InputError>{errors.email}</InputError> 
+                            : null
+                        }
+                    </InputContainer>
+                    <InputContainer>
+                        <Input 
+                            type='password' 
+                            name='password' 
+                            placeholder='Password' 
+                            onChange={handleChange}
+                            border={errors && errors.password ? 'red' : null}
+
+                        />
+                        {errors && errors.password 
+                            ? <InputError bottom={
+                                errors.password === 'Password must be between 6 and 14 characters.' 
+                                ? '-10' 
+                                : '10'
+                            }
+                            toolTipTop={
+                                errors.password === 'Password must be between 6 and 14 characters.' 
+                                ? '31' 
+                                : '17'
+                            }>
+                                {errors.password}
+                            </InputError> : null
+                        }                    
+                    </InputContainer>
+                    <InputContainer>
+                        <Input 
+                            type='password' 
+                            name='confirmPassword' 
+                            placeholder='Confirm Password' 
+                            onChange={handleChange}
+                            border={errors && errors.confirmPassword ? 'red' : null}
+                        />
+                        {errors && errors.confirmPassword 
+                            ? <InputError>{errors.confirmPassword}</InputError> 
+                            : null
+                        }
+                    </InputContainer>
                     <Button type='submit'>Register</Button>
                 </FormSeparator>
             </Form>
