@@ -47,8 +47,14 @@ const Register = () => {
         const image = imgInfo.imgFile[0]
         imageData.append('upload_preset', `${process.env.REACT_APP_UPLOAD_PRESET}`)
         imageData.append('file', image);
-        const imageUrl = await axios.post(`${process.env.REACT_APP_IMAGE_UPLOAD_URL}`, imageData)
-        return await imageUrl.data.secure_url;
+        try {
+            const imageUrl = await axios.post(`${process.env.REACT_APP_IMAGE_UPLOAD_URL}`, imageData)
+            return await imageUrl.data.secure_url;
+        }
+        catch(error) {
+            console.log(error)
+            return `${process.env.REACT_APP_DEFAULT_IMAGE}`;
+        }
     }
     const handleSubmit = async e => {
         e.preventDefault();
