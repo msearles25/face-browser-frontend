@@ -7,6 +7,7 @@ const Button = styled.button`
     color: ${props => props.primary ? props.theme.light.textContrast : props.theme.light.primary};
     background: ${props => props.primary ? props.theme.light.primary : props.theme.light.lightgray};
     border: 1px solid ${props => props.theme.light.primary};
+    font-size: 1.4rem;
 `;
 
 export default Button;

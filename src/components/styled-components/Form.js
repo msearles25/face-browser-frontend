@@ -2,10 +2,21 @@ import styled from 'styled-components';
 
 export const Form = styled.form`
     width: 100%;
-    max-width:430px;
+    height: ${props => props.height && '149px'};
+    max-width: ${props => 
+    props.maxW 
+        ? props.maxW 
+        : '430px'
+    };
     display: flex;
+    flex-direction: ${props => 
+        props.flexDir ? props.flexDir : 'row'
+    };
+    justify-content: ${props => 
+        props.justifyContent && 'space-between'
+    };
     box-sizing: border-box;
-    /* border: 1px solid red; */
+    /* border: 1px solid green; */
 `;
 export const FormSeparator = styled.div`
     display: flex;
