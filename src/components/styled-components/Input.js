@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const InputContainer = styled.div`
     position: relative;
-    width: 200px;
+    width: ${props => props.width ? props.width : '200px'};
 `;
 
 export const Input = styled.input`
@@ -26,7 +26,7 @@ export const InputError = styled.div`
     position: absolute;
     z-index: 20;
     bottom: ${props => props.bottom ? `${props.bottom}%` : '10%'};
-    left: 80%;
+    left: ${props => props.left ? `${props.left}%` : '80%'};
     margin-left: 60px;
     min-width: 180px !important;
 
