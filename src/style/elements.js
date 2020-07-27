@@ -6,7 +6,7 @@ export const MainWrapper = styled.div`
     min-height: calc(100% - 3.5rem);
     /* display: flex; */
     /* border: 1px solid green; */
-    background: ${props=> props.theme.light.lightgray};
+    background: ${props=> props.theme.light.background};
     
     ${({ flex }) => 
         flex &&

@@ -91,7 +91,7 @@ const Register = props => {
             justFlex='center'
             alignFlex='center'
         >
-            <Form onSubmit={handleSubmit}>
+            <Form justifyContent onSubmit={handleSubmit}>
                 <FormSeparator>
                     <Img 
                     src={imgInfo.imgSrc 

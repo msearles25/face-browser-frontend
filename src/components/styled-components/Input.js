@@ -12,7 +12,7 @@ export const Input = styled.input`
     border: none;
     width: 100%;
     border-bottom: 1px solid ${props => props.border ? props.border : props.theme.light.primary};
-    background: ${props => props.theme.light.lightgray};
+    background: ${props => props.theme.light.background};
     padding: 5px;
     transition: 0.3s;
 `;
