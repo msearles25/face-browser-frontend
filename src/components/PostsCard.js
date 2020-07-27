@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -68,17 +69,24 @@ const BodyWrapper = styled.div`
 const Body = styled.p`
     margin-top: 10px; 
 `;
+const StyledLink = styled(Link)`
+    text-decoration: none;
+`;
 
 const PostsCard = ({ post }) => {
     dayjs.extend(relativeTime);
     return (
         <CardWrapper>
             <CardContent>
-                <UserImage src={post.imageUrl}/>
+                <StyledLink to={`/${post.userHandle}`}>
+                    <UserImage src={post.imageUrl}/>
+                </StyledLink>
                 <InforWrapper>
-                    <UserHandle>
-                        @{post.userHandle}
-                    </UserHandle>
+                    <StyledLink to={`/${post.userHandle}`}>
+                        <UserHandle>
+                            @{post.userHandle}
+                        </UserHandle>
+                    </StyledLink>
                     <Date>
                         {dayjs(post.createdOn).fromNow()}
                     </Date>
