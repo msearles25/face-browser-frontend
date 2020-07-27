@@ -32,4 +32,5 @@ export const Img = styled.img`
     height: 200px;
     width: 100%;
     margin-bottom: 1rem;
+    object-fit: cover;
 `;

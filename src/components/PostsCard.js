@@ -25,6 +25,7 @@ const CardContent = styled.div`
     padding: 10px;
     padding-top: 2px;
     word-wrap: break-word;
+    border-radius: 5px;
     &::after {
         content:'';
         z-index: -1;
@@ -32,9 +33,9 @@ const CardContent = styled.div`
         border: 15px solid;
         border-color: transparent  ${props => props.theme.light.foreground} ${props => props.theme.light.foreground} transparent;
         box-shadow: 3px 3px 3px rgba(0,0,0,.15);
-        top: 58px;
+        top: 55px;
         left: -9px;
-        transform: rotate(60deg);
+        transform: rotate(55deg);
     }
 `;
 const UserImage = styled.img`
@@ -45,6 +46,7 @@ const UserImage = styled.img`
     top: 6%;
     left: -110px;
     box-shadow: .1rem .2rem 0.4rem .2rem rgba(0,0,0,.15);
+    object-fit: cover;
 `;
 const InforWrapper = styled.div`
     display: flex;
