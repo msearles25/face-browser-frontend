@@ -5,6 +5,7 @@ export default {
         navBlend: '#3492ca',
         textContrast: '#fff',
         background: '#d8d8d8',
-        foreground: '#EAEAEA'
+        foreground: '#EAEAEA',
+        fadedColor: '#737373'
     }
 }
