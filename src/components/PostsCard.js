@@ -54,7 +54,8 @@ const InforWrapper = styled.div`
 `;
 const UserHandle = styled.h5`
     color: ${props => props.theme.light.primary};
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    margin-top: 3px;
 `;
 const Date = styled.p`
     color: ${props => props.theme.light.fadedColor};
