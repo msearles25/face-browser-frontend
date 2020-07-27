@@ -20,3 +20,27 @@ export const loginUser = (user, history) => dispatch => {
         })
     })
 }
+
+export const registerUser = (newUser, imageUpload, history) => async dispatch => {
+    
+    try {
+        const userImage = await imageUpload();
+        const user = await axios.post('http://localhost:1337/api/auth/register', {
+            ...newUser,
+            imageUrl: userImage
+        });
+        localStorage.setItem('token', user.data.token)
+        dispatch(clearErrors());
+        history.push('/')
+    } 
+    catch(error) {
+        console.log(error.response)
+        dispatch({
+            type: SET_ERRORS,
+            payload: error.response.data.message
+        })
+        // setErrors({
+        //     ...error.response.data.message
+        // }, console.log(errors))
+    }
+}

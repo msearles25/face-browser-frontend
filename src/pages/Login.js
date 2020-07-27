@@ -8,6 +8,7 @@ import { Form } from '../components/styled-components/Form';
 import { Input, InputContainer, InputError } from '../components/styled-components/Input';
 import Button  from '../components/styled-components/Button';
 
+// redux
 import { connect } from 'react-redux';
 import { loginUser } from '../redux/actions/userActions';
 import { clearErrors } from '../redux/actions/uiActions';
