@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 const CardWrapper = styled.div`
     /* background: #fff; */
-    height: 150px;
+    position:relative;
+    height: 130px;
     width: 100%;
     margin-bottom: 1rem;  
     box-sizing: border-box;
@@ -13,23 +14,27 @@ const CardWrapper = styled.div`
 `;
 const CardContent = styled.div`
     position: relative;
+    /* z-index: 2; */
     right: 0;
     height: 100%;
-    width:80%;
+    width:70%;
+    max-width: 500px;
     background: ${props => props.theme.light.foreground};
     border-bottom: 1px solid lightgray;
-    box-shadow: .3rem .3rem 0.3rem .1rem rgba(0,0,0,.1);
+    box-shadow: 3px 3px 3px rgba(0,0,0,.15);
     box-sizing: border-box;
-    z-index: 2;
+    padding: 20px;
     &::after {
         content:'';
-        position: absolute;
-        border: 20px solid;
-        border-color: ${props => props.theme.light.foreground} ${props => props.theme.light.foreground} transparent transparent;
-        top: 60px;
-        left: -25px;
-        transform: rotate(15deg);
         z-index: -1;
+        position: absolute;
+        border: 15px solid;
+        border-color: transparent  ${props => props.theme.light.foreground} ${props => props.theme.light.foreground} transparent;
+        box-shadow: 3px 3px 3px rgba(0,0,0,.15);
+        /* box-shadow: rgba(0, 0, 0, 0.3) 10px 2px 2px ; */
+        top: 75px;
+        left: -9px;
+        transform: rotate(60deg);
     }
 `;
 const CardImg = styled.img`
@@ -37,14 +42,16 @@ const CardImg = styled.img`
     height: 100px;
     width: 100px;
     position: absolute;
-    
+    top: 6%;
+    left: -120px;
+    box-shadow: .1rem .2rem 0.4rem .2rem rgba(0,0,0,.15);
 `;
 
 const PostsCard = ({ post }) => {
     return (
         <CardWrapper>
-            {/* <CardImg src={post.imageUrl}/> */}
             <CardContent>
+                <CardImg src={post.imageUrl}/>
                 {post.userHandle} <br />
                 {post.postContent} <br />
                 {post.createdOn} <br />
