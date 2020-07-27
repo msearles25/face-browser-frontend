@@ -32,11 +32,17 @@ function Navbar() {
                 <NavItem to='/'>
                     Home
                 </NavItem>
-                <NavItem>
+                {/* <NavItem>
                     Notifications
                 </NavItem>
                 <NavItem>
                     Post
+                </NavItem> */}
+                <NavItem to='/login'>
+                    Login
+                </NavItem>
+                <NavItem to='/register'>
+                    Register
                 </NavItem>
             </NavContainer>
         </NavWrapper>
