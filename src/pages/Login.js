@@ -8,6 +8,9 @@ import { Form } from '../components/styled-components/Form';
 import { Input, InputContainer, InputError } from '../components/styled-components/Input';
 import Button  from '../components/styled-components/Button';
 
+import { connect } from 'react-redux';
+import { loginUser, clearErrors } from '../redux/actions/userActions';
+
 const MainTitle = styled.h1`
     margin-bottom: 30px;
     font-size: 1.9rem;
@@ -24,16 +27,17 @@ const Login = props => {
     });
 
     const handleChange = e => {
-        if((e.target.name && errors && errors.message.userHandle) || 
+        if((e.target.name && props.ui.errors && props.ui.errors.userHandle) || 
            (e.target.name && errors && errors.message.password)) {
-            setErrors({
-                message: {
-                    ...errors.message,
-                    [e.target.name]: null
-                }
-            })
+            
+            // setErrors({
+            //     message: {
+            //         ...errors.message,
+            //         [e.target.name]: null
+            //     }
+            // })
+            props.clearErrors();
         }
-
         setUser({
             ...user,
             [e.target.name]: e.target.value
@@ -42,27 +46,8 @@ const Login = props => {
 
     const handleSubmit = e => {
         e.preventDefault();
-
-        axios.post('http://localhost:1337/api/auth/login', user)
-            .then(res => {
-                localStorage.setItem('token', res.data.token)
-                props.history.push('/')
-            })
-            .catch(error => {
-                console.log(error.response.data.message)
-                if(error.response.data.message.userHandle || error.response.data.message.password) {
-                    setErrors({
-                        ...error.response.data
-                    }, console.log(errors))
-                    return;
-                }
-                setErrors({
-                    ...errors,
-                    invalidCreds: error.response.data.message
-                }, console.log(errors))
-            })
+        props.loginUser(user, props.history)
     }
-
 
     return (
         <MainWrapper
@@ -74,7 +59,6 @@ const Login = props => {
             <MainTitle>
                 Log into FaceBrowser 
             </MainTitle>
-            {console.log(errors)}
             <Form 
                 flexDir='column' 
                 maxW='300px'
@@ -87,13 +71,13 @@ const Login = props => {
                         name='userHandle' 
                         placeholder='Handle' 
                         onChange={handleChange}
-                        border={errors && errors.message.userHandle ? 'red' : null}
+                        border={props.ui.errors && props.ui.errors.userHandle ? 'red' : null}
                     />
-                    {errors && errors.message.userHandle 
-                        ? <InputError left='85'>{errors.message.userHandle}</InputError> 
+                    {props.ui.errors && props.ui.errors.userHandle 
+                        ? <InputError left='85'>{props.ui.errors.userHandle}</InputError> 
                         : null
                     }
-                    {errors && errors.invalidCreds 
+                    {props.ui.errors && props.ui.errors.invalidCreds 
                         ? <InputError left='85'>{errors.invalidCreds}</InputError> 
                         : null
                     }
@@ -116,4 +100,8 @@ const Login = props => {
     )
 }
 
-export default Login;
+const mapStateToProps = state => ({
+    ui: state.ui
+})
+
+export default connect(mapStateToProps, { loginUser, clearErrors })(Login);
