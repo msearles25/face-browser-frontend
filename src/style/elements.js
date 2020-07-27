@@ -4,9 +4,10 @@ export const MainWrapper = styled.div`
     position: relative;
     box-sizing: border-box;
     min-height: calc(100% - 3.5rem);
+    z-index: -1;
     /* display: flex; */
     /* border: 1px solid green; */
-    background: ${props=> props.theme.light.lightgray};
+    background: ${props=> props.theme.light.background};
     
     ${({ flex }) => 
         flex &&

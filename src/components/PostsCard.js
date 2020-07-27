@@ -1,23 +1,92 @@
 import React from 'react';
 import styled from 'styled-components';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 const CardWrapper = styled.div`
-    position: relative;
-    background: #fff;
+    position:relative;
+    min-height: 100px;
     width: 100%;
-    height: 150px;
-    border-bottom: 1px solid lightgray;
-    box-shadow: .1rem .1rem .3rem .1rem rgba(0,0,0,.1);
+    margin-bottom: 1rem;  
     box-sizing: border-box;
-    margin-bottom: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    /* border: 1px solid blue; */
+`;
+const CardContent = styled.div`
+    position: relative;
+    right: 0;
+    width:70%;
+    max-width: 500px;
+    background: ${props => props.theme.light.foreground};
+    border-bottom: 1px solid lightgray;
+    box-shadow: 3px 3px 3px rgba(0,0,0,.15);
+    box-sizing: border-box;
+    padding: 10px;
+    padding-top: 2px;
+    word-wrap: break-word;
+    &::after {
+        content:'';
+        z-index: -1;
+        position: absolute;
+        border: 15px solid;
+        border-color: transparent  ${props => props.theme.light.foreground} ${props => props.theme.light.foreground} transparent;
+        box-shadow: 3px 3px 3px rgba(0,0,0,.15);
+        top: 58px;
+        left: -9px;
+        transform: rotate(60deg);
+    }
+`;
+const UserImage = styled.img`
+    border-radius: 100%;
+    height: 80px;
+    width: 80px;
+    position: absolute;
+    top: 6%;
+    left: -110px;
+    box-shadow: .1rem .2rem 0.4rem .2rem rgba(0,0,0,.15);
+`;
+const InforWrapper = styled.div`
+    display: flex;
+`;
+const UserHandle = styled.h5`
+    color: ${props => props.theme.light.primary};
+    font-size: 1.5rem;
+`;
+const Date = styled.p`
+    color: ${props => props.theme.light.fadedColor};
+    font-size: .7rem;
+    margin-top: 11px;
+    margin-left: 9px;
+`;
+const BodyWrapper = styled.div`
+    height: 100%;
+    
+`;
+const Body = styled.p`
+    margin-top: 10px; 
 `;
 
 const PostsCard = ({ post }) => {
+    dayjs.extend(relativeTime);
     return (
         <CardWrapper>
-            {post.userHandle} <br />
-            {post.postContent} <br />
-            {post.createdOn} <br />
+            <CardContent>
+                <UserImage src={post.imageUrl}/>
+                <InforWrapper>
+                    <UserHandle>
+                        @{post.userHandle}
+                    </UserHandle>
+                    <Date>
+                        {dayjs(post.createdOn).fromNow()}
+                    </Date>
+                </InforWrapper>
+                <BodyWrapper>
+                    <Body>
+                        {post.postContent}
+                    </Body>
+                </BodyWrapper>
+            </CardContent>
         </CardWrapper>
     )
 }

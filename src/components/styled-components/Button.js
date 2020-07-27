@@ -5,7 +5,7 @@ const Button = styled.button`
     width: 100%;
     cursor: pointer;
     color: ${props => props.primary ? props.theme.light.textContrast : props.theme.light.primary};
-    background: ${props => props.primary ? props.theme.light.primary : props.theme.light.lightgray};
+    background: ${props => props.primary ? props.theme.light.primary : props.theme.light.background};
     border: 1px solid ${props => props.theme.light.primary};
     font-size: 1.4rem;
 `;

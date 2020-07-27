@@ -4,6 +4,8 @@ export default {
         secondary: '#0E131F',
         navBlend: '#3492ca',
         textContrast: '#fff',
-        lightgray: 'rgba(0,0,0,.03)'
+        background: '#d8d8d8',
+        foreground: '#EAEAEA',
+        fadedColor: '#737373'
     }
 }
