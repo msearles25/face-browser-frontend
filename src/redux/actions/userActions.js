@@ -1,4 +1,5 @@
-import { SET_USER, SET_ERRORS, CLEAR_ERRORS } from '../types';
+import { SET_USER, SET_ERRORS } from '../types';
+import { clearErrors } from './uiActions';
 import axios from 'axios';
 
 export const loginUser = (user, history) => dispatch => {
@@ -9,33 +10,13 @@ export const loginUser = (user, history) => dispatch => {
         //    type: SET_USER,
         //    payload: res.data 
         // })
-        clearErrors();
+        dispatch(clearErrors());
         history.push('/');
     })
     .catch(error => {
-        // if(error.response.data.message.userHandle || error.response.data.message.password) {
-        //     dispatch({
-        //         type: SET_ERRORS,
-        //         payload: { ...error.response.data }
-        //     })
-        //     // setErrors({
-        //     //     ...error.response.data
-        //     // }, console.log(errors))
-        //     return;
-        // }
-
         dispatch({
             type: SET_ERRORS,
             payload: error.response.data
         })
-        // setErrors({
-        //     ...errors,
-        //     invalidCreds: error.response.data.message
-        // }, console.log(errors))
     })
-}
-
-export const clearErrors = (test) => dispatch => {
-    console.log('ok clearing...')
-    dispatch({ type: CLEAR_ERRORS });
 }

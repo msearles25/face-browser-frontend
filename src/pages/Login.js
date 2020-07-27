@@ -9,7 +9,8 @@ import { Input, InputContainer, InputError } from '../components/styled-componen
 import Button  from '../components/styled-components/Button';
 
 import { connect } from 'react-redux';
-import { loginUser, clearErrors } from '../redux/actions/userActions';
+import { loginUser } from '../redux/actions/userActions';
+import { clearErrors } from '../redux/actions/uiActions';
 
 const MainTitle = styled.h1`
     margin-bottom: 30px;
@@ -18,25 +19,11 @@ const MainTitle = styled.h1`
 
 const Login = props => {
     const [user, setUser] = useState();
-    const [errors, setErrors] = useState({
-        message: {
-            userHandle: null,
-            password: null
-        },
-        invalidCreds: null
-    });
 
     const handleChange = e => {
         if((e.target.name && props.ui.errors && props.ui.errors.userHandle) || 
-           (e.target.name && errors && errors.message.password)) {
-            
-            // setErrors({
-            //     message: {
-            //         ...errors.message,
-            //         [e.target.name]: null
-            //     }
-            // })
-            props.clearErrors();
+           (e.target.name && props.ui.errors && props.ui.errors.password)) {
+            props.clearErrors(e.target.name);
         }
         setUser({
             ...user,
@@ -71,14 +58,18 @@ const Login = props => {
                         name='userHandle' 
                         placeholder='Handle' 
                         onChange={handleChange}
-                        border={props.ui.errors && props.ui.errors.userHandle ? 'red' : null}
+                        border={
+                            props.ui.errors && props.ui.errors.userHandle 
+                                ? 'red' 
+                                : null
+                        }
                     />
                     {props.ui.errors && props.ui.errors.userHandle 
                         ? <InputError left='85'>{props.ui.errors.userHandle}</InputError> 
                         : null
                     }
-                    {props.ui.errors && props.ui.errors.invalidCreds 
-                        ? <InputError left='85'>{errors.invalidCreds}</InputError> 
+                    {props.ui.errors && props.ui.errors.message
+                        ? <InputError left='85'>{props.ui.errors.message}</InputError> 
                         : null
                     }
                 </InputContainer>
@@ -87,10 +78,14 @@ const Login = props => {
                         name='password' 
                         placeholder='Password' 
                         onChange={handleChange}
-                        border={errors && errors.message.password ? 'red' : null}
+                        border={
+                            props.ui.errors && props.ui.errors.password 
+                                ? 'red' 
+                                : null
+                        }
                     />
-                    {errors && errors.message.password 
-                        ? <InputError left='85'>{errors.message.password}</InputError>
+                    {props.ui.errors && props.ui.errors.password 
+                        ? <InputError left='85'>{props.ui.errors.password}</InputError>
                         : null
                     }
                 </InputContainer>
