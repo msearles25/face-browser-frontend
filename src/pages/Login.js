@@ -1,12 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
-import axios from 'axios';
 
 //styled component imports
 import { MainWrapper } from '../style/elements';
 import { Form } from '../components/styled-components/Form';
 import { Input, InputContainer, InputError } from '../components/styled-components/Input';
 import Button  from '../components/styled-components/Button';
+
+// redux
+import { connect } from 'react-redux';
+import { loginUser } from '../redux/actions/userActions';
+import { clearAllErrors } from '../redux/actions/uiActions';
 
 const MainTitle = styled.h1`
     margin-bottom: 30px;
@@ -16,18 +20,28 @@ const MainTitle = styled.h1`
 const Login = props => {
     const [user, setUser] = useState();
     const [errors, setErrors] = useState();
+    const { ui } = props;
+
+    useEffect(() => {
+        if(ui.errors) {
+            setErrors({ ...ui.errors })
+        }
+        
+        return () => {
+            props.clearAllErrors()
+        }
+
+    }, [ui.errors])
 
     const handleChange = e => {
-        if((e.target.name && errors && errors.message.userHandle) || 
-           (e.target.name && errors && errors.message.password)) {
-            setErrors({
-                ...errors,
-                message: {
-                    ...errors.message,
-                    [e.target.name]: null
-                }
-            })
-        }
+        // if((e.target.name && errors && errors.userHandle) || 
+        //    (e.target.name && errors && errors.password)) {
+        // }
+        setErrors({
+            ...errors,
+            [e.target.name]: null
+        })
+        
         setUser({
             ...user,
             [e.target.name]: e.target.value
@@ -37,26 +51,8 @@ const Login = props => {
     const handleSubmit = e => {
         e.preventDefault();
 
-        axios.post('http://localhost:1337/api/auth/login', user)
-            .then(res => {
-                localStorage.setItem('token', res.data.token)
-                props.history.push('/')
-            })
-            .catch(error => {
-                // if(error.response.data.userHandle || error.response.data.password) {
-                //     setErrors({
-                //         ...error.response.data
-                //     }, console.log(errors))
-                //     return;
-                // }
-
-                setErrors({
-                    ...errors,
-                    message: error.response.data
-                })
-            })
+        props.loginUser(user, props.history)
     }
-
 
     return (
         <MainWrapper
@@ -80,14 +76,18 @@ const Login = props => {
                         name='userHandle' 
                         placeholder='Handle' 
                         onChange={handleChange}
-                        border={errors && errors.message.userHandle ? 'red' : null}
+                        border={
+                            errors && errors.userHandle 
+                                ? 'red' 
+                                : null
+                        }
                     />
-                    {errors && errors.message.userHandle 
-                        ? <InputError left='85'>{errors.message.userHandle}</InputError> 
+                    {errors && errors.userHandle 
+                        ? <InputError left='85'>{errors.userHandle}</InputError> 
                         : null
                     }
-                    {errors && errors.invalidCreds 
-                        ? <InputError left='85'>{errors.message.invalidCreds}</InputError> 
+                    {errors && errors.general 
+                        ? <InputError left='85'>{errors.general}</InputError> 
                         : null
                     }
                 </InputContainer>
@@ -96,17 +96,26 @@ const Login = props => {
                         name='password' 
                         placeholder='Password' 
                         onChange={handleChange}
-                        border={errors && errors.message.password ? 'red' : null}
+                        border={
+                            errors && errors.password 
+                                ? 'red' 
+                                : null
+                        }
                     />
-                    {errors && errors.message.password 
-                        ? <InputError left='85'>{errors.message.password}</InputError>
+                    {errors && errors.password 
+                        ? <InputError left='85'>{errors.password}</InputError>
                         : null
                     }
                 </InputContainer>
+                {ui.loading === true ? <p>loading...</p> : null}
                 <Button type='submit' primary>Login</Button>
             </Form>       
         </MainWrapper>
     )
 }
 
-export default Login;
+const mapStateToProps = state => ({
+    ui: state.ui
+})
+
+export default connect(mapStateToProps, { loginUser, clearAllErrors })(Login);

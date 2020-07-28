@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import axios from 'axios';
 
 // styled components imports
@@ -7,7 +7,12 @@ import Button from '../components/styled-components/Button';
 import { InputContainer, Input, InputError } from '../components/styled-components/Input';
 import { Form, FormSeparator, Img } from '../components/styled-components/Form';
 
+import { connect } from 'react-redux';
+import { registerUser } from '../redux/actions/userActions';
+import { clearAllErrors } from '../redux/actions/uiActions';
+
 const Register = props => {
+    const { ui } = props;
     const [imgInfo, setImgInfo] = useState({
         imgSrc: null,
         imgFile: null
@@ -16,6 +21,15 @@ const Register = props => {
     const [errors, setErrors] = useState();
     //using a reference to the file input so I can use a custom button
     const imageSelectHandler = useRef(null);
+
+    useEffect(() => {
+        if(ui.errors) {
+            setErrors({ ...ui.errors })
+        }
+        return () => {
+            props.clearAllErrors()
+        }
+    }, [ui.errors])
 
     // handles the users uploaded image
     const handleImageUpload = e => {
@@ -41,6 +55,14 @@ const Register = props => {
         
     }
     const handleChange = e => {
+
+        if(errors) {
+            setErrors({
+                ...errors,
+                [e.target.name]: null
+            })
+        }
+
         setNewUser({
             ...newUser,
             [e.target.name]: e.target.value
@@ -61,27 +83,14 @@ const Register = props => {
             return await imageUrl.data.secure_url;
         }
         catch(error) {
-            console.log(error)
+            console.log(error.response)
             return `${process.env.REACT_APP_DEFAULT_IMAGE}`;
         }
     }
-    const handleSubmit = async e => {
+    const handleSubmit = e => {
         e.preventDefault();
         
-        try {
-            const userImage = await imageUpload();
-            const user = await axios.post('http://localhost:1337/api/auth/register', {
-                ...newUser,
-                imageUrl: userImage
-            });
-            localStorage.setItem('token', user.data.token)
-            props.history.push('/')
-        } 
-        catch(error) {
-            setErrors({
-                ...error.response.data
-            }, console.log(errors))
-        }
+        props.registerUser(newUser, imageUpload, props.history)
     }
     
     return (
@@ -110,7 +119,7 @@ const Register = props => {
                         primary onClick={() => 
                             imageSelectHandler.current.click()
                     }>
-                                Chose Image
+                        Chose Image
                     </Button>
                 </FormSeparator>
                 <FormSeparator>
@@ -180,8 +189,18 @@ const Register = props => {
                     <Button type='submit'>Register</Button>
                 </FormSeparator>
             </Form>
+            {ui.loading ? <p>loading...</p> : null}
         </MainWrapper>
     )
 }
 
-export default Register;
+const mapStateToProps = state => ({
+    ui: state.ui
+})
+
+const mapActionsToProps = {
+    registerUser,
+    clearAllErrors
+}
+
+export default connect(mapStateToProps, mapActionsToProps )(Register);
