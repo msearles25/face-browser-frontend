@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// uploads the image to cloudinary
 export  const imageUpload = async imgInfo => {
     if(!imgInfo.imgFile) {
         return `${process.env.REACT_APP_DEFAULT_IMAGE}`;

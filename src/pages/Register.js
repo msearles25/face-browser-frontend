@@ -15,7 +15,7 @@ import { clearAllErrors } from '../redux/actions/uiActions';
 import { imageUpload } from '../utils/utils';
 
 const Register = props => {
-    const { ui } = props;
+    const { ui, clearAllErrors } = props;
     const [imgInfo, setImgInfo] = useState({
         imgSrc: null,
         imgFile: null
@@ -30,9 +30,9 @@ const Register = props => {
             setErrors({ ...ui.errors })
         }
         return () => {
-            props.clearAllErrors()
+            clearAllErrors()
         }
-    }, [ui.errors])
+    }, [ui.errors, clearAllErrors])
 
     // handles the users uploaded image
     const handleImageUpload = e => {
@@ -58,20 +58,17 @@ const Register = props => {
         
     }
     const handleChange = e => {
-
         if(errors) {
             setErrors({
                 ...errors,
                 [e.target.name]: null
             })
         }
-
         setNewUser({
             ...newUser,
             [e.target.name]: e.target.value
         })
     }
-    // uploads the image to cloudinary
    
     const handleSubmit = e => {
         e.preventDefault();

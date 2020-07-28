@@ -21,8 +21,8 @@ export const registerUser = (newUser, imageUpload, imgInfo, history) => async di
     try {
         const user = await axios.post('http://localhost:1337/api/auth/register', newUser);
         const userImage = await imageUpload(imgInfo);
-        const { token, id }= await user.data;
-        await axiosWithAuth().put(`/user/${await id}`,{
+        const { token }= await user.data;
+        await axiosWithAuth().put(`/user`,{
             imageUrl: await userImage
         })
         localStorage.setItem('token', token)

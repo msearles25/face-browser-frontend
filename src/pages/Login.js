@@ -20,7 +20,7 @@ const MainTitle = styled.h1`
 const Login = props => {
     const [user, setUser] = useState();
     const [errors, setErrors] = useState();
-    const { ui } = props;
+    const { ui, clearAllErrors } = props;
 
     useEffect(() => {
         if(ui.errors) {
@@ -28,10 +28,10 @@ const Login = props => {
         }
         
         return () => {
-            props.clearAllErrors()
+            clearAllErrors()
         }
 
-    }, [ui.errors])
+    }, [ui.errors, clearAllErrors])
 
     const handleChange = e => {
         // if((e.target.name && errors && errors.userHandle) || 
@@ -118,4 +118,9 @@ const mapStateToProps = state => ({
     ui: state.ui
 })
 
-export default connect(mapStateToProps, { loginUser, clearAllErrors })(Login);
+const mapStateToActions = {
+    loginUser,
+    clearAllErrors
+}
+
+export default connect(mapStateToProps, mapStateToActions)(Login);
