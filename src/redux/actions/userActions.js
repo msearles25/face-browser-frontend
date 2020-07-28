@@ -1,4 +1,5 @@
 import axios from 'axios';
+import axiosWithAuth from '../../components/auth/axiosWithAuth';
 import { setErrors, clearAllErrors } from './uiActions';
 import { LOADING_UI } from '../types';
 
@@ -18,20 +19,17 @@ export const loginUser = (user, history) => dispatch => {
 export const registerUser = (newUser, imageUpload, history) => async dispatch => {
     dispatch({ type:LOADING_UI })
     try {
-        // const userImage = await imageUpload();
         const user = await axios.post('http://localhost:1337/api/auth/register', newUser);
         const userImage = await imageUpload();
-        await axios.put(`http://localhost:1337/api/user/${await user.data.id}`,{
+        const { token, id }= await user.data;
+        await axiosWithAuth().put(`/user/${await id}`,{
             imageUrl: await userImage
         })
-        localStorage.setItem('token', user.data.token)
+        localStorage.setItem('token', token)
         dispatch(clearAllErrors())
         history.push('/')
     } 
     catch(error) {
-        // setErrors({
-        //     ...error.response.data
-        // })
         dispatch(setErrors(error.response.data))
     }
 }
