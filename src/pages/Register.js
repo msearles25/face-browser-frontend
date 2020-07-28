@@ -79,7 +79,7 @@ const Register = props => {
         } 
         catch(error) {
             setErrors({
-                ...error.response.data.message
+                ...error.response.data
             }, console.log(errors))
         }
     }

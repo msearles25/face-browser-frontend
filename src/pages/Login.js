@@ -15,25 +15,19 @@ const MainTitle = styled.h1`
 
 const Login = props => {
     const [user, setUser] = useState();
-    const [errors, setErrors] = useState({
-        message: {
-            userHandle: null,
-            password: null
-        },
-        invalidCreds: null
-    });
+    const [errors, setErrors] = useState();
 
     const handleChange = e => {
         if((e.target.name && errors && errors.message.userHandle) || 
            (e.target.name && errors && errors.message.password)) {
             setErrors({
+                ...errors,
                 message: {
                     ...errors.message,
                     [e.target.name]: null
                 }
             })
         }
-
         setUser({
             ...user,
             [e.target.name]: e.target.value
@@ -49,17 +43,17 @@ const Login = props => {
                 props.history.push('/')
             })
             .catch(error => {
-                console.log(error.response.data.message)
-                if(error.response.data.message.userHandle || error.response.data.message.password) {
-                    setErrors({
-                        ...error.response.data
-                    }, console.log(errors))
-                    return;
-                }
+                // if(error.response.data.userHandle || error.response.data.password) {
+                //     setErrors({
+                //         ...error.response.data
+                //     }, console.log(errors))
+                //     return;
+                // }
+
                 setErrors({
                     ...errors,
-                    invalidCreds: error.response.data.message
-                }, console.log(errors))
+                    message: error.response.data
+                })
             })
     }
 
@@ -74,7 +68,6 @@ const Login = props => {
             <MainTitle>
                 Log into FaceBrowser 
             </MainTitle>
-            {console.log(errors)}
             <Form 
                 flexDir='column' 
                 maxW='300px'
@@ -94,7 +87,7 @@ const Login = props => {
                         : null
                     }
                     {errors && errors.invalidCreds 
-                        ? <InputError left='85'>{errors.invalidCreds}</InputError> 
+                        ? <InputError left='85'>{errors.message.invalidCreds}</InputError> 
                         : null
                     }
                 </InputContainer>
