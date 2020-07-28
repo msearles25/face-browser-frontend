@@ -19,7 +19,6 @@ export const Input = styled.input`
 
 export const InputError = styled.div`
     font-size: .8rem;
-    /* height: 3rem; */
     padding: 5px;
     background: red;
     color: white;
@@ -28,7 +27,7 @@ export const InputError = styled.div`
     bottom: ${props => props.bottom ? `${props.bottom}%` : '10%'};
     left: ${props => props.left ? `${props.left}%` : '80%'};
     margin-left: 60px;
-    min-width: 180px !important;
+    min-width: 160px;
 
     &::after {
         content: '';
