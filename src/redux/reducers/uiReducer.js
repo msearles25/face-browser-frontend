@@ -6,7 +6,7 @@ const initialState = {
         email: null,
         password: null,
         confirmPassword: null,
-        message: null
+        general: null
     }
 }
 
@@ -23,10 +23,7 @@ export default (state = initialState, action) => {
             
             return {
                 ...state,
-                errors: {
-                    ...state.errors,
-                    [action.payload]: null
-                }
+                errors: null
             }
             
         default:

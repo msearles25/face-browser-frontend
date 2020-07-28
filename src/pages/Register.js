@@ -9,7 +9,7 @@ import { Form, FormSeparator, Img } from '../components/styled-components/Form';
 
 import { connect } from 'react-redux';
 import { registerUser } from '../redux/actions/userActions';
-import { clearErrors } from '../redux/actions/uiActions';
+import { clearAllErrors } from '../redux/actions/uiActions';
 
 const Register = props => {
     const { ui } = props;
@@ -21,6 +21,15 @@ const Register = props => {
     const [errors, setErrors] = useState();
     //using a reference to the file input so I can use a custom button
     const imageSelectHandler = useRef(null);
+
+    useEffect(() => {
+        if(ui.errors) {
+            setErrors({ ...ui.errors })
+        }
+        return () => {
+            props.clearAllErrors()
+        }
+    }, [ui.errors])
 
     // handles the users uploaded image
     const handleImageUpload = e => {
@@ -46,6 +55,14 @@ const Register = props => {
         
     }
     const handleChange = e => {
+
+        if(errors) {
+            setErrors({
+                ...errors,
+                [e.target.name]: null
+            })
+        }
+
         setNewUser({
             ...newUser,
             [e.target.name]: e.target.value
@@ -66,12 +83,13 @@ const Register = props => {
             return await imageUrl.data.secure_url;
         }
         catch(error) {
-            console.log(error)
+            console.log(error.response)
             return `${process.env.REACT_APP_DEFAULT_IMAGE}`;
         }
     }
-    const handleSubmit = async e => {
+    const handleSubmit = e => {
         e.preventDefault();
+        
         props.registerUser(newUser, imageUpload, props.history)
     }
     
@@ -111,10 +129,10 @@ const Register = props => {
                             name='userHandle' 
                             placeholder='Handle' 
                             onChange={handleChange}
-                            border={ui.errors && ui.errors.userHandle ? 'red' : null}
+                            border={errors && errors.userHandle ? 'red' : null}
                         />
-                        {ui.errors && ui.errors.userHandle 
-                            ? <InputError bottom='-10' toolTipTop='32'>{ui.errors.userHandle}</InputError> 
+                        {errors && errors.userHandle 
+                            ? <InputError bottom='-10' toolTipTop='32'>{errors.userHandle}</InputError> 
                             : null
                         }
                     </InputContainer>
@@ -124,10 +142,10 @@ const Register = props => {
                             name='email' 
                             placeholder='Email' 
                             onChange={handleChange}
-                            border={ui.errors && ui.errors.email ? 'red' : null}
+                            border={errors && errors.email ? 'red' : null}
                         />
-                        {ui.errors && ui.errors.email 
-                            ? <InputError>{ui.errors.email}</InputError> 
+                        {errors && errors.email 
+                            ? <InputError>{errors.email}</InputError> 
                             : null
                         }
                     </InputContainer>
@@ -137,21 +155,21 @@ const Register = props => {
                             name='password' 
                             placeholder='Password' 
                             onChange={handleChange}
-                            border={ui.errors && ui.errors.password ? 'red' : null}
+                            border={errors && errors.password ? 'red' : null}
 
                         />
-                        {ui.errors && ui.errors.password 
+                        {errors && errors.password 
                             ? <InputError bottom={
-                                ui.errors.password === 'Password must be between 6 and 14 characters.' 
+                                errors.password === 'Password must be between 6 and 14 characters.' 
                                 ? '-10' 
                                 : '10'
                             }
                             toolTipTop={
-                                ui.errors.password === 'Password must be between 6 and 14 characters.' 
+                                errors.password === 'Password must be between 6 and 14 characters.' 
                                 ? '31' 
                                 : '17'
                             }>
-                                {ui.errors.password}
+                                {errors.password}
                             </InputError> : null
                         }                    
                     </InputContainer>
@@ -161,10 +179,10 @@ const Register = props => {
                             name='confirmPassword' 
                             placeholder='Confirm Password' 
                             onChange={handleChange}
-                            border={ui.errors && ui.errors.confirmPassword ? 'red' : null}
+                            border={errors && errors.confirmPassword ? 'red' : null}
                         />
-                        {ui.errors && ui.errors.confirmPassword 
-                            ? <InputError>{ui.errors.confirmPassword}</InputError> 
+                        {errors && errors.confirmPassword 
+                            ? <InputError>{errors.confirmPassword}</InputError> 
                             : null
                         }
                     </InputContainer>
@@ -179,4 +197,9 @@ const mapStateToProps = state => ({
     ui: state.ui
 })
 
-export default connect(mapStateToProps, { registerUser, clearErrors })(Register);
+const mapActionsToProps = {
+    registerUser,
+    clearAllErrors
+}
+
+export default connect(mapStateToProps, mapActionsToProps )(Register);
