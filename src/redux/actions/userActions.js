@@ -16,11 +16,11 @@ export const loginUser = (user, history) => dispatch => {
     })
 }
 
-export const registerUser = (newUser, imageUpload, history) => async dispatch => {
+export const registerUser = (newUser, imageUpload, imgInfo, history) => async dispatch => {
     dispatch({ type:LOADING_UI })
     try {
         const user = await axios.post('http://localhost:1337/api/auth/register', newUser);
-        const userImage = await imageUpload();
+        const userImage = await imageUpload(imgInfo);
         const { token, id }= await user.data;
         await axiosWithAuth().put(`/user/${await id}`,{
             imageUrl: await userImage
