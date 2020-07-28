@@ -189,6 +189,7 @@ const Register = props => {
                     <Button type='submit'>Register</Button>
                 </FormSeparator>
             </Form>
+            {ui.loading ? <p>loading...</p> : null}
         </MainWrapper>
     )
 }

@@ -107,6 +107,7 @@ const Login = props => {
                         : null
                     }
                 </InputContainer>
+                {ui.loading === true ? <p>loading...</p> : null}
                 <Button type='submit' primary>Login</Button>
             </Form>       
         </MainWrapper>

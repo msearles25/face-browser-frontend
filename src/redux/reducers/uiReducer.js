@@ -1,13 +1,8 @@
-import { SET_ERRORS, CLEAR_ERRORS } from '../types';
+import { LOADING_UI, SET_ERRORS, CLEAR_ERRORS } from '../types';
 
 const initialState = {
-    errors: {
-        userHandle: null,
-        email: null,
-        password: null,
-        confirmPassword: null,
-        general: null
-    }
+    loading: false,
+    errors: null
 }
 
 export default (state = initialState, action) => {
@@ -15,17 +10,20 @@ export default (state = initialState, action) => {
         case SET_ERRORS:
             return {
                 ...state,
+                loading: false,
                 errors: action.payload
             }               
         case CLEAR_ERRORS:
-            // check what field it is,
-            // and then clear that fields error only
-            
             return {
                 ...state,
+                loading: false,
                 errors: null
             }
-            
+        case LOADING_UI:
+            return {
+                ...state,
+                loading: true,
+            }
         default:
             return state;
     }
