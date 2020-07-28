@@ -2,21 +2,30 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import './App.css';
 
-import home from './pages/home';
-import login from './pages/login';
-import register from './pages/register';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+
+// styled components
+import { ThemeProvider } from 'styled-components';
+import Theme from './style/theme';
 
 function App() {
   return (
-    <div className="App">
-      <Router>
-        <Switch>
-          <Route exact path='/' component={home}/>
-          <Route exact path='/login' component={login}/>
-          <Route exact path='/register' component={register}/>
-        </Switch>
-      </Router>
-    </div>
+    <ThemeProvider theme={Theme}>
+      <div className="App">
+        <Router>
+          <Navbar />
+          <Switch>
+            <Route exact path='/' component={Home}/>
+            <Route exact path='/login' component={Login}/>
+            <Route exact path='/register' component={Register}/>
+          </Switch>
+        </Router>
+      </div>
+    </ThemeProvider>
+
   );
 }
 
