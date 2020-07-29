@@ -83,7 +83,7 @@ const PostsCard = ({ post }) => {
                     <UserImage src={post.imageUrl}/>
                 </StyledLink>
                 <InforWrapper>
-                    <StyledLink to={`/${post.userHandle}`}>
+                    <StyledLink to={`/users/${post.userHandle}`}>
                         <UserHandle>
                             @{post.userHandle}
                         </UserHandle>

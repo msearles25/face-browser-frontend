@@ -1,9 +1,10 @@
 import axios from 'axios';
 import axiosWithAuth from '../../components/auth/axiosWithAuth';
 import { setErrors, clearAllErrors } from './uiActions';
-import { SET_USER, LOADING_UI, SET_AUTHENTICATED, SET_UNAUTHENTICATED } from '../types';
+import { SET_USER, LOADING_UI, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER_DATA } from '../types';
 
 export const getUserInfo = () => async dispatch => {
+    dispatch({ type:LOADING_USER_DATA })
     try {
         const response = await axiosWithAuth().get('/user');
         const userInfo = await response.data

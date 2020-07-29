@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 
@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 // fontawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLocationArrow, faLink } from '@fortawesome/free-solid-svg-icons'
-
 
 const ProfileWrapper = styled.div`
     /* background: ${props => props.theme.light.foreground}; */
@@ -68,45 +67,77 @@ const InfoWrapper = styled.div`
 `;
 
 const  SideProfile = ({ user }) => {
+    const [imgInfo, setImgInfo] = useState({
+        imgSrc: null,
+        imgFile: null
+    });
+    // handles the users uploaded image
+    const handleImageUpload = e => {
+        if(e.target.files.length === 0) {
+            e.target.files = imgInfo.imgFile;
+            return;
+        }
+
+
+        if(e.target.files[0].type === 'image/jpg' 
+          || e.target.files[0].type === 'image/jpeg' 
+          || e.target.files[0].type === 'image/png') {
+
+            const file = e.target.files
+            const imgUrl = URL.createObjectURL(e.target.files[0]);
+            setImgInfo({ 
+                imgSrc: imgUrl, 
+                imgFile: file
+            });
+            return;
+        }
+        return;
+        
+    }
     return (
-        <ProfileWrapper>
-            <ProfileSeparator alignCenter>
-                <ProfileImage src={user.info.imageUrl}/>
-            </ProfileSeparator>
-            <ProfileSeparator 
-                background 
-                margin='0.3rem 0 0 0'
-                boxShadow
-            >
-                <UserHandle>
-                    @{user.info.userHandle}
-                    <span>{dayjs(user.info.joinedOn).format('MMM YYYY')}</span>
-                </UserHandle>
-                {user.info.location && 
-                    <InfoWrapper>
-                        <FontAwesomeIcon icon={faLocationArrow}/>
-                        <Body>
-                            {user.info.location}
-                        </Body>
-                    </InfoWrapper>
-                }
-                {user.info.site && 
-                    <InfoWrapper>
-                        <FontAwesomeIcon icon={faLink}/>
-                        <Body>
-                            {user.info.site}
-                        </Body>
-                    </InfoWrapper>
-                }
-                {user.info.bio && 
-                    <InfoWrapper>
-                        <Body>
-                            {user.info.bio}
-                        </Body>
-                    </InfoWrapper>
-                }
-            </ProfileSeparator>
-        </ProfileWrapper>
+        !user.loadingUser ? (user.authed ? (
+            <ProfileWrapper>
+                <ProfileSeparator alignCenter>
+                    <ProfileImage src={user.info.imageUrl}/>
+                    <input type='file' onChange={handleImageUpload}/>
+                </ProfileSeparator>
+                <ProfileSeparator 
+                    background 
+                    margin='0.3rem 0 0 0'
+                    boxShadow
+                >
+                    <UserHandle>
+                        @{user.info.userHandle}
+                        <span>{dayjs(user.info.joinedOn).format('MMM YYYY')}</span>
+                    </UserHandle>
+                    {user.info.location && 
+                        <InfoWrapper>
+                            <FontAwesomeIcon icon={faLocationArrow}/>
+                            <Body>
+                                {user.info.location}
+                            </Body>
+                        </InfoWrapper>
+                    }
+                    {user.info.site && 
+                        <InfoWrapper>
+                            <FontAwesomeIcon icon={faLink}/>
+                            <Body>
+                                {user.info.site}
+                            </Body>
+                        </InfoWrapper>
+                    }
+                    {user.info.bio && 
+                        <InfoWrapper>
+                            <Body>
+                                {user.info.bio}
+                            </Body>
+                        </InfoWrapper>
+                    }
+                </ProfileSeparator>
+            </ProfileWrapper>
+        ) 
+        :(<p>login to see profile..</p>)) : (<p>loading...</p>)
+        
     )
 }
 
