@@ -30,7 +30,9 @@ const App = props => {
       const currentDate = Date.now();
       if(expired <= currentDate) {
         logoutUser();
-        window.location.href = '/login'
+        // window.location.href = '/login';
+        // need a small time out, otherwise an error is thrown
+        setTimeout(() => history.push('/login'), 15)
       } else {
         authUser();
         getUserInfo();
