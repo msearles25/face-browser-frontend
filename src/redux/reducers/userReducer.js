@@ -17,7 +17,7 @@ export default (state = initialState, action) => {
         case SET_USER:
             return {
                 ...state,
-                info: action.payload
+                info: { ...action.payload }
             }
         default:
             return state;
