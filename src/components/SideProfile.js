@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 
@@ -6,8 +6,10 @@ import dayjs from 'dayjs';
 import { connect } from 'react-redux';
 
 // fontawesome
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLocationArrow, faLink } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLocationArrow, faLink, faEdit } from '@fortawesome/free-solid-svg-icons';
+
+import { editUserDetails } from '../redux/actions/userActions';
 
 const ProfileWrapper = styled.div`
     /* background: ${props => props.theme.light.foreground}; */
@@ -66,11 +68,12 @@ const InfoWrapper = styled.div`
     }
 `;
 
-const  SideProfile = ({ user }) => {
+const  SideProfile = ({ user, ...props }) => {
     const [imgInfo, setImgInfo] = useState({
         imgSrc: null,
         imgFile: null
     });
+    const imageSelectHandler = useRef(null);
     // handles the users uploaded image
     const handleImageUpload = e => {
         if(e.target.files.length === 0) {
@@ -94,12 +97,30 @@ const  SideProfile = ({ user }) => {
         return;
         
     }
+
+    const handleSubmit = async () => {
+        props.editUserDetails(imgInfo)
+    }
     return (
         !user.loadingUser ? (user.authed ? (
             <ProfileWrapper>
                 <ProfileSeparator alignCenter>
                     <ProfileImage src={user.info.imageUrl}/>
-                    <input type='file' onChange={handleImageUpload}/>
+                    <form onSubmit={handleSubmit}>
+
+                        <input 
+                            type='file' 
+                            onChange={handleImageUpload}
+                            ref={imageSelectHandler}
+                            hidden='hidden'
+                        />
+                        <FontAwesomeIcon icon={faEdit} 
+                            onClick={() => {
+                                imageSelectHandler.current.click();
+                            }}
+                        />
+                        <button type='submit'>submit</button>
+                    </form>
                 </ProfileSeparator>
                 <ProfileSeparator 
                     background 
@@ -145,4 +166,4 @@ const mapStateToProps = state => ({
     user: state.user
 })
 
-export default connect(mapStateToProps, null)(SideProfile);
+export default connect(mapStateToProps, { editUserDetails })(SideProfile);
