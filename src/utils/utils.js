@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // uploads the image to cloudinary
-export  const imageUpload = async imgInfo => {
+export const imageUpload = async imgInfo => {
     if(!imgInfo.imgFile) {
         return `${process.env.REACT_APP_DEFAULT_IMAGE}`;
     }
@@ -15,7 +15,6 @@ export  const imageUpload = async imgInfo => {
         return await imageUrl.data.secure_url;
     }
     catch(error) {
-        console.log(error.response)
         return `${process.env.REACT_APP_DEFAULT_IMAGE}`;
     }
 }
