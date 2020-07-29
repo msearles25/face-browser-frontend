@@ -26,6 +26,7 @@ const ProfileImage = styled.img`
     margin: 0 auto;
     box-sizing: border-box;
     object-fit: cover;
+    box-shadow: 3px 3px 3px rgba(0,0,0,.15);
 `;
 const ProfileSeparator = styled.div`
     background: ${props => props.background ? props.theme.light.foreground : 'none'};
@@ -35,6 +36,11 @@ const ProfileSeparator = styled.div`
     flex-direction: column;
     align-items: ${props => props.alignCenter ? 'center' : 'none'};
     padding: 10px 20px;
+    box-shadow: ${props => props.boxShadow 
+        ? '3px 3px 3px rgba(0,0,0,.15)' 
+        : 'none'
+    };
+
 `;
 const UserHandle = styled.h3`
     color: ${props => props.theme.light.primary};
@@ -70,6 +76,7 @@ const  SideProfile = ({ user }) => {
             <ProfileSeparator 
                 background 
                 margin='0.3rem 0 0 0'
+                boxShadow
             >
                 <UserHandle>
                     @{user.info.userHandle}
