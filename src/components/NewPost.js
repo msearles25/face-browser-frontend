@@ -17,7 +17,7 @@ const Title = styled.h4`
     margin-bottom: 20px;
 `;
 
-const NewPost = ({ addNewPost, user }) => {
+const NewPost = ({ addNewPost }) => {
     const [open, setOpen] = useState(false);
     const [post, setPost] = useState();
     
@@ -34,8 +34,8 @@ const NewPost = ({ addNewPost, user }) => {
     }
     const handleSubmit = async e => {
         e.preventDefault()
-        console.log(user)
         await addNewPost(post);
+        handleClose();
     }
 
     return (
@@ -61,8 +61,4 @@ const NewPost = ({ addNewPost, user }) => {
     )
 }
 
-const mapStateToProps = state => ({
-    user: state.user
-})
-
-export default connect(mapStateToProps, { addNewPost })(NewPost);
+export default connect(null, { addNewPost })(NewPost);

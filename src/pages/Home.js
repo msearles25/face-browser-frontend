@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 // components
 import PostsCard from '../components/PostsCard';
 import { MainWrapper } from '../style/elements';
 import SideProfile from '../components/SideProfile';
+
+// redux
+import { connect } from 'react-redux';
+import { getAllPosts } from '../redux/actions/dataActions';
 
 const ContentWrapper = styled.div`
     height: 100%;
@@ -28,15 +31,14 @@ const Separator = styled.div`
     margin-right: ${props => `${props.marginRight}px`};
 `;
 
-const Home = () => {
-    const [info, setInfo] = useState();
-
+const Home = ({ data, getAllPosts }) => {
     useEffect(() => {
-        axios.get('http://localhost:1337/api/post/')
-        .then(res => {
-            setInfo(res.data)
-        })
-    }, [])
+    
+        const allPosts = async () => {
+            return await getAllPosts();
+        }
+        allPosts();
+    }, [getAllPosts])
 
     return (
         <MainWrapper 
@@ -46,7 +48,7 @@ const Home = () => {
         >
             <ContentWrapper>
                 <Separator marginRight='60'>
-                    {info && info.map(post => (
+                    {data.posts && data.posts.map(post => (  
                         <PostsCard key={post.postId} post={post}/>
                     ))}
                 </Separator>
@@ -58,4 +60,8 @@ const Home = () => {
     )
 }
 
-export default Home;
+const mapStateToProps = state => ({
+    data: state.data
+})
+
+export default connect(mapStateToProps, { getAllPosts })(Home);
