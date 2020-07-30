@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 // fontawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationArrow, faLink, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { ClickableIcon } from '../style/elements';
 
 import { editUserDetails, getUserInfo } from '../redux/actions/userActions';
 
@@ -102,8 +103,13 @@ const  SideProfile = ({ user, ...props }) => {
         
     }
 
-    const handleSubmit = async () => {
-        props.editUserDetails(imgInfo);
+    const handleSubmit = async e => {
+        e.preventDefault()
+        if (!imgInfo.imgFile) {
+            console.log('lol nope')
+            return
+        }
+        await props.editUserDetails(imgInfo);
         props.getUserInfo();
     }
     return (
@@ -119,14 +125,14 @@ const  SideProfile = ({ user, ...props }) => {
                             ref={imageSelectHandler}
                             hidden='hidden'
                         />
-                        <FontAwesomeIcon icon={faEdit} 
+                        <ClickableIcon icon={faEdit} 
                             onClick={() => {
                                 imageSelectHandler.current.click();
                             }}
                         />
-                        <button type='submit'>submit</button>
+                        <button type='submit' >submit</button>
                     </form>
-                    <button>open modal</button>
+                    <button onClick={() => setModal(true)}>open modal</button>
                 </ProfileSeparator>
                 <ProfileSeparator 
                     background 
@@ -167,7 +173,10 @@ const  SideProfile = ({ user, ...props }) => {
                     open={modal}
                     setOpen={setModal}
                 >
-                    this is a test
+                    <p>
+
+                    testing
+                    </p>
                 </Modal>
             </ProfileWrapper>
         ) 
@@ -179,5 +188,9 @@ const  SideProfile = ({ user, ...props }) => {
 const mapStateToProps = state => ({
     user: state.user
 })
+const mapActionsToProps = {
+    editUserDetails,
+    getUserInfo
+}
 
-export default connect(mapStateToProps, { editUserDetails, getUserInfo })(SideProfile);
+export default connect(mapStateToProps, mapActionsToProps)(SideProfile);

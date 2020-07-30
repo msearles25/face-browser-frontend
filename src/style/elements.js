@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const MainWrapper = styled.div`
     position: relative;
@@ -16,6 +17,10 @@ export const MainWrapper = styled.div`
             display: flex;
             flex-direction: ${({ flexDir }) => flexDir };
             align-items: ${({ alignFlex }) => alignFlex };
-            justify-content: ${({ justFlex }) => justFlex }
+            justify-content: ${({ justFlex }) => justFlex };
         `}
+`;
+
+export const ClickableIcon = styled(FontAwesomeIcon)`
+    cursor: pointer;
 `;
