@@ -70,6 +70,7 @@ const UserHandle = styled.h3`
     }
 `;
 const Body = styled.p`
+    width: 100%;
     word-wrap: break-word;
 `;
 const InfoWrapper = styled.div`
@@ -197,6 +198,8 @@ const  SideProfile = ({ user, ...props }) => {
                         leftZero
                         open={modal}
                         handleClose={handleClose}
+                        includeButtons
+                        submitButtonText='Save'
                     >
                         <InputContainer
                             width='300px'

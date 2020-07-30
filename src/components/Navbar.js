@@ -1,6 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import styled from 'styled-components'
+import styled from 'styled-components';
+
+import { connect } from 'react-redux';
+
+import NewPost from './NewPost';
 
 const NavWrapper = styled.div`
     background-image: ${({ theme }) => 
@@ -25,28 +29,41 @@ const NavItem = styled(Link)`
     text-decoration: none;
 `;
 
-function Navbar() {
+function Navbar({ user }) {
+
     return (
         <NavWrapper>
             <NavContainer>
                 <NavItem to='/'>
                     Home
                 </NavItem>
-                {/* <NavItem>
-                    Notifications
-                </NavItem>
-                <NavItem>
-                    Post
-                </NavItem> */}
-                <NavItem to='/login'>
-                    Login
-                </NavItem>
-                <NavItem to='/register'>
-                    Register
-                </NavItem>
+                {user.authed && 
+                    <>
+                        <NavItem>
+                            Notifications
+                        </NavItem>
+
+                        <NewPost />
+                    
+                    </>
+                }
+                {!user.authed && 
+                    <>    
+                        <NavItem to='/login'>
+                            Login
+                        </NavItem>
+                        <NavItem to='/register'>
+                            Register
+                        </NavItem>
+                    </>
+                }
             </NavContainer>
         </NavWrapper>
     )
 }
 
-export default Navbar;
+const mapStateToProps = state =>({
+    user: state.user
+})
+
+export default connect(mapStateToProps)(Navbar);
