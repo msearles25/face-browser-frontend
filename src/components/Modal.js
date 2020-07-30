@@ -84,6 +84,7 @@ const Modal = ({ children, ...props }) => {
                         width='80px'
                         fontSize='0.9rem'
                         margin='0 5px 0 0'
+                        type='submit'
                     >
                         Save
                     </Button>

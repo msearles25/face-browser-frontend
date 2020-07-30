@@ -76,14 +76,18 @@ export const imageUpload = async imgInfo => {
     }
 }
 
-export const editUserDetails = (imgInfo) => async dispatch => {
+export const editUserDetails = (newImgInfo, updatedInfo) => async dispatch => {
     dispatch({ type:LOADING_USER_DATA })
     try {
-        const newUserImage = await imageUpload(imgInfo) 
-        const test = await axiosWithAuth().put('/user', {
-            imageUrl: newUserImage
-        })
-        console.log(await test)
+        if(newImgInfo) {
+            const newUserImage = await imageUpload(newImgInfo) 
+            await axiosWithAuth().put('/user', {
+                imageUrl: newUserImage
+            })
+
+        } else {
+            await axiosWithAuth().put('/user', updatedInfo)
+        }
     }   
     catch(error) {
         console.log(error)

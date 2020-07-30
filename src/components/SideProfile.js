@@ -110,20 +110,25 @@ const  SideProfile = ({ user, ...props }) => {
         }
         return;
     }
-
     const handleImageSubmit = async e => {
         e.preventDefault()
         const newImage = handleImageUpload(e);
         await props.editUserDetails(newImage);
         props.getUserInfo();
     }
+    
+    // handling the submition of users details
+    const handleSubmit = async e => {
+        e.preventDefault();
+        await props.editUserDetails(null, edited);
+        props.getUserInfo();
+        handleClose();
+    }
     return (
         !user.loadingUser ? (user.authed ? (
             <ProfileWrapper>
                 <ProfileSeparator alignCenter>
                     <ProfileImage src={user.info.imageUrl}/>
-                    {/* <form onSubmit={handleSubmit}> */}
-
                     <input 
                         type='file' 
                         onChange={handleImageSubmit}
@@ -135,8 +140,6 @@ const  SideProfile = ({ user, ...props }) => {
                             imageSelectHandler.current.click();
                         }}
                     />
-                        {/* <button type='submit' >submit</button> */}
-                    {/* </form> */}
                     <button onClick={() => handleOpen()}>open modal</button>
                 </ProfileSeparator>
                 <ProfileSeparator 
@@ -172,37 +175,39 @@ const  SideProfile = ({ user, ...props }) => {
                         </InfoWrapper>
                     }
                 </ProfileSeparator>
-                <Modal 
-                    topZero
-                    leftZero
-                    open={modal}
-                    handleClose={handleClose}
-                >
-                    <InputContainer
-                        width='300px'
-                    >   
-                        <Input 
-                            placeholder='Location'
-                            margin='0 0 15px 0'
-                            name='location'
-                            onChange={handleChange}
-                            value={edited.location}
-                        />
-                        <Input 
-                            placeholder='Website'
-                            margin='0 0 15px 0'
-                            name='site'
-                            onChange={handleChange}
-                            value={edited.site}
-                        />
-                        <Input 
-                            placeholder='Bio'
-                            name='bio'
-                            onChange={handleChange}
-                            value={edited.bio}
-                        />
-                    </InputContainer>
-                </Modal>
+                <form onSubmit={handleSubmit}>
+                    <Modal 
+                        topZero
+                        leftZero
+                        open={modal}
+                        handleClose={handleClose}
+                    >
+                        <InputContainer
+                            width='300px'
+                        >   
+                            <Input 
+                                placeholder='Location'
+                                margin='0 0 15px 0'
+                                name='location'
+                                onChange={handleChange}
+                                value={edited.location}
+                            />
+                            <Input 
+                                placeholder='Website'
+                                margin='0 0 15px 0'
+                                name='site'
+                                onChange={handleChange}
+                                value={edited.site}
+                            />
+                            <Input 
+                                placeholder='Bio'
+                                name='bio'
+                                onChange={handleChange}
+                                value={edited.bio}
+                            />
+                        </InputContainer>
+                    </Modal>
+                </form>
             </ProfileWrapper>
         ) 
         :(<p>login to see profile..</p>)) : (<p>loading...</p>)
