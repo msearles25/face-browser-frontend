@@ -2,12 +2,17 @@ import React, { useState, useRef } from 'react'
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 
+// components
+import Modal from '../components/Modal';
+import { Input, InputContainer } from '../components/styled-components/Input'
+
 // redux
 import { connect } from 'react-redux';
 
 // fontawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationArrow, faLink, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { ClickableIcon } from '../style/elements';
 
 import { editUserDetails, getUserInfo } from '../redux/actions/userActions';
 
@@ -69,10 +74,12 @@ const InfoWrapper = styled.div`
 `;
 
 const  SideProfile = ({ user, ...props }) => {
+    const [modal, setModal] = useState(true);
     const [imgInfo, setImgInfo] = useState({
         imgSrc: null,
         imgFile: null
     });
+    const [edited, setEdited] = useState();
     const imageSelectHandler = useRef(null);
     // handles the users uploaded image
     const handleImageUpload = e => {
@@ -98,8 +105,13 @@ const  SideProfile = ({ user, ...props }) => {
         
     }
 
-    const handleSubmit = async () => {
-        props.editUserDetails(imgInfo);
+    const handleSubmit = async e => {
+        e.preventDefault()
+        if (!imgInfo.imgFile) {
+            console.log('lol nope')
+            return
+        }
+        await props.editUserDetails(imgInfo);
         props.getUserInfo();
     }
     return (
@@ -115,13 +127,14 @@ const  SideProfile = ({ user, ...props }) => {
                             ref={imageSelectHandler}
                             hidden='hidden'
                         />
-                        <FontAwesomeIcon icon={faEdit} 
+                        <ClickableIcon icon={faEdit} 
                             onClick={() => {
                                 imageSelectHandler.current.click();
                             }}
                         />
-                        <button type='submit'>submit</button>
+                        <button type='submit' >submit</button>
                     </form>
+                    <button onClick={() => setModal(true)}>open modal</button>
                 </ProfileSeparator>
                 <ProfileSeparator 
                     background 
@@ -156,6 +169,28 @@ const  SideProfile = ({ user, ...props }) => {
                         </InfoWrapper>
                     }
                 </ProfileSeparator>
+                <Modal 
+                    topZero
+                    leftZero
+                    open={modal}
+                    setOpen={setModal}
+                >
+                    <InputContainer
+                        width='300px'
+                    >   
+                        <Input 
+                            placeholder='Location'
+                            margin='0 0 15px 0'
+                        />
+                        <Input 
+                            placeholder='Website'
+                            margin='0 0 15px 0'
+                        />
+                        <Input 
+                            placeholder='Bio'
+                        />
+                    </InputContainer>
+                </Modal>
             </ProfileWrapper>
         ) 
         :(<p>login to see profile..</p>)) : (<p>loading...</p>)
@@ -166,5 +201,9 @@ const  SideProfile = ({ user, ...props }) => {
 const mapStateToProps = state => ({
     user: state.user
 })
+const mapActionsToProps = {
+    editUserDetails,
+    getUserInfo
+}
 
-export default connect(mapStateToProps, { editUserDetails, getUserInfo })(SideProfile);
+export default connect(mapStateToProps, mapActionsToProps)(SideProfile);

@@ -14,9 +14,11 @@ export const getUserInfo = () => async dispatch => {
         console.log(error)
     }
 }
+
 export const authUser = () => dispatch => {
     dispatch({ type:SET_AUTHENTICATED });
 }
+
 export const loginUser = (user, history) => async dispatch => {
     dispatch({ type:LOADING_UI });
     try {
@@ -32,10 +34,12 @@ export const loginUser = (user, history) => async dispatch => {
         dispatch(setErrors(error.response.data))
     }
 }
+
 export const logoutUser = () => dispatch => {
     localStorage.removeItem('token');
     dispatch({ type:SET_UNAUTHENTICATED });
 }
+
 export const registerUser = (newUser, imageUpload, imgInfo, history) => async dispatch => {
     dispatch({ type:LOADING_UI })
     try {
