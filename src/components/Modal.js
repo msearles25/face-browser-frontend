@@ -22,6 +22,7 @@ const BackDrop = styled.div`
     visibility: ${props => props.open ? 'visible' : 'hidden'};
     opacity: ${props => props.open ? 1 : 0};
     transition: visibility .4s linear, opacity 0.4s linear;
+    z-index: 1000;
 `;
 const ModalContainer = styled.div`
     /* min-height: 200px; */
@@ -78,25 +79,29 @@ const Modal = ({ children, ...props }) => {
                 >
                     {children}
                 </ModalSeparator>
-                <ModalSeparator justifyContent>
-                    <Button 
-                        primary
-                        width='80px'
-                        fontSize='0.9rem'
-                        margin='0 5px 0 0'
-                        type='submit'
-                    >
-                        Save
-                    </Button>
-                    <Button
-                        width='75px'
-                        fontSize='0.9rem'
-                        onClick={() => props.handleClose()}
-                        type='button'
-                    >
-                        Cancel
-                    </Button>
-                </ModalSeparator>
+                {props.includeButtons &&
+                    <>
+                        <ModalSeparator justifyContent>
+                            <Button 
+                                primary
+                                width='80px'
+                                fontSize='0.9rem'
+                                margin='0 5px 0 0'
+                                type='submit'
+                            >
+                                {props.submitButtonText}
+                            </Button>
+                            <Button
+                                width='75px'
+                                fontSize='0.9rem'
+                                onClick={() => props.handleClose()}
+                                type='button'
+                            >
+                                Cancel
+                            </Button>
+                        </ModalSeparator>
+                    </>                
+                }
             </ModalContainer>
         </BackDrop>
     )

@@ -18,6 +18,20 @@ export const Input = styled.input`
     transition: 0.3s;
     outline: none;
 `;
+export const TextArea = styled.textarea`
+    box-sizing: border-box;
+    height: 7rem;
+    font-size: 1.2rem;
+    border: none;
+    width: 400px;
+    margin: ${props => props.margin};
+    border-bottom: 1px solid ${props => props.border ? props.border : props.theme.light.primary};
+    background: ${props => props.theme.light.background};
+    padding: 5px;
+    transition: 0.3s;
+    outline: none;
+    resize:none;
+`;
 
 export const InputError = styled.div`
     font-size: .8rem;

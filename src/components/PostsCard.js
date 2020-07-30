@@ -65,10 +65,10 @@ const Date = styled.p`
 `;
 const BodyWrapper = styled.div`
     height: 100%;
-    
 `;
 const Body = styled.p`
     margin-top: 10px; 
+    width: 100%;
 `;
 const StyledLink = styled(Link)`
     text-decoration: none;
