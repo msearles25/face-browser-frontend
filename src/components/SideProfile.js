@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 
 // components
 import Modal from '../components/Modal';
+import { Input, InputContainer } from '../components/styled-components/Input'
 
 // redux
 import { connect } from 'react-redux';
@@ -78,6 +79,7 @@ const  SideProfile = ({ user, ...props }) => {
         imgSrc: null,
         imgFile: null
     });
+    const [edited, setEdited] = useState();
     const imageSelectHandler = useRef(null);
     // handles the users uploaded image
     const handleImageUpload = e => {
@@ -173,10 +175,21 @@ const  SideProfile = ({ user, ...props }) => {
                     open={modal}
                     setOpen={setModal}
                 >
-                    <p>
-
-                    testing
-                    </p>
+                    <InputContainer
+                        width='300px'
+                    >   
+                        <Input 
+                            placeholder='Location'
+                            margin='0 0 15px 0'
+                        />
+                        <Input 
+                            placeholder='Website'
+                            margin='0 0 15px 0'
+                        />
+                        <Input 
+                            placeholder='Bio'
+                        />
+                    </InputContainer>
                 </Modal>
             </ProfileWrapper>
         ) 

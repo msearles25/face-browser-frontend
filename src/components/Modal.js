@@ -18,7 +18,10 @@ const BackDrop = styled.div`
     top: ${props => props.topZero ? 0 : ''};
     height: 100vh;
     width: 100vw;
-    display: ${props => props.open ? '' : 'none'};
+    /* display: ${props => props.open ? '' : 'none'}; */
+    visibility: ${props => props.open ? 'visible' : 'hidden'};
+    opacity: ${props => props.open ? 1 : 0};
+    transition: visibility .4s linear, opacity 0.4s linear;
 `;
 const ModalContainer = styled.div`
     /* min-height: 200px; */
@@ -38,8 +41,11 @@ const ModalSeparator = styled.div`
     width:100%;
     min-height: ${props => props.height === 'large' ? '75%' : '10%'};
     display: flex;
+    flex-direction: ${props => props.dirColumn ? 'column' : ''};
     justify-content: ${props => props.justifyContent ? 'flex-end' : ''};
+    align-items: ${props => props.alignItems};
     position: relative;
+    margin-bottom: ${props => props.bottomMargin};
     /* border: 1px solid green; */
 `;
 
@@ -57,7 +63,6 @@ const Modal = ({ children, ...props }) => {
                 }
             }}
         >
-            {console.log(props)}
             <ModalContainer>
                 <ModalSeparator justifyContent>
                     <ClickableIcon 
@@ -65,7 +70,12 @@ const Modal = ({ children, ...props }) => {
                         onClick={() => props.setOpen(false)}
                     />
                 </ModalSeparator>
-                <ModalSeparator height='large'>
+                <ModalSeparator 
+                    height='large' 
+                    dirColumn
+                    bottomMargin='30px'
+                    alignItems='center'
+                >
                     {children}
                 </ModalSeparator>
                 <ModalSeparator justifyContent>
@@ -80,6 +90,7 @@ const Modal = ({ children, ...props }) => {
                     <Button
                         width='75px'
                         fontSize='0.9rem'
+                        onClick={() => props.setOpen(false)}
                     >
                         Cancel
                     </Button>
