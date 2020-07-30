@@ -74,44 +74,47 @@ const InfoWrapper = styled.div`
 `;
 
 const  SideProfile = ({ user, ...props }) => {
-    const [modal, setModal] = useState(true);
-    const [imgInfo, setImgInfo] = useState({
-        imgSrc: null,
-        imgFile: null
-    });
-    const [edited, setEdited] = useState();
+    const [modal, setModal] = useState(false);
+    const [edited, setEdited] = useState({});
     const imageSelectHandler = useRef(null);
+
+    const mapInfoToProps = () => {
+        setEdited({
+            location: user.info.location ? user.info.location : '',
+            site: user.info.site ? user.info.site : '',
+            bio: user.info.bio ? user.info.bio : ''
+        })
+    }
+    const handleChange = e => {
+        e.preventDefault();
+        setEdited({
+            ...edited,
+            [e.target.name]: e.target.value
+        })
+    }  
+    const handleOpen = () => {
+        setModal(true)
+        mapInfoToProps();
+    }
+    const handleClose = () => {
+        setModal(false)
+    }
     // handles the users uploaded image
     const handleImageUpload = e => {
-        if(e.target.files.length === 0) {
-            e.target.files = imgInfo.imgFile;
-            return;
-        }
-
-
         if(e.target.files[0].type === 'image/jpg' 
           || e.target.files[0].type === 'image/jpeg' 
           || e.target.files[0].type === 'image/png') {
 
             const file = e.target.files
-            const imgUrl = URL.createObjectURL(e.target.files[0]);
-            setImgInfo({ 
-                imgSrc: imgUrl, 
-                imgFile: file
-            });
-            return;
+            return file;
         }
         return;
-        
     }
 
-    const handleSubmit = async e => {
+    const handleImageSubmit = async e => {
         e.preventDefault()
-        if (!imgInfo.imgFile) {
-            console.log('lol nope')
-            return
-        }
-        await props.editUserDetails(imgInfo);
+        const newImage = handleImageUpload(e);
+        await props.editUserDetails(newImage);
         props.getUserInfo();
     }
     return (
@@ -119,22 +122,22 @@ const  SideProfile = ({ user, ...props }) => {
             <ProfileWrapper>
                 <ProfileSeparator alignCenter>
                     <ProfileImage src={user.info.imageUrl}/>
-                    <form onSubmit={handleSubmit}>
+                    {/* <form onSubmit={handleSubmit}> */}
 
-                        <input 
-                            type='file' 
-                            onChange={handleImageUpload}
-                            ref={imageSelectHandler}
-                            hidden='hidden'
-                        />
-                        <ClickableIcon icon={faEdit} 
-                            onClick={() => {
-                                imageSelectHandler.current.click();
-                            }}
-                        />
-                        <button type='submit' >submit</button>
-                    </form>
-                    <button onClick={() => setModal(true)}>open modal</button>
+                    <input 
+                        type='file' 
+                        onChange={handleImageSubmit}
+                        ref={imageSelectHandler}
+                        hidden='hidden'
+                    />
+                    <ClickableIcon icon={faEdit} 
+                        onClick={() => {
+                            imageSelectHandler.current.click();
+                        }}
+                    />
+                        {/* <button type='submit' >submit</button> */}
+                    {/* </form> */}
+                    <button onClick={() => handleOpen()}>open modal</button>
                 </ProfileSeparator>
                 <ProfileSeparator 
                     background 
@@ -173,7 +176,7 @@ const  SideProfile = ({ user, ...props }) => {
                     topZero
                     leftZero
                     open={modal}
-                    setOpen={setModal}
+                    handleClose={handleClose}
                 >
                     <InputContainer
                         width='300px'
@@ -181,13 +184,22 @@ const  SideProfile = ({ user, ...props }) => {
                         <Input 
                             placeholder='Location'
                             margin='0 0 15px 0'
+                            name='location'
+                            onChange={handleChange}
+                            value={edited.location}
                         />
                         <Input 
                             placeholder='Website'
                             margin='0 0 15px 0'
+                            name='site'
+                            onChange={handleChange}
+                            value={edited.site}
                         />
                         <Input 
                             placeholder='Bio'
+                            name='bio'
+                            onChange={handleChange}
+                            value={edited.bio}
                         />
                     </InputContainer>
                 </Modal>

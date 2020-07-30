@@ -59,12 +59,12 @@ export const registerUser = (newUser, imageUpload, imgInfo, history) => async di
 }
 
 export const imageUpload = async imgInfo => {
-    if(!imgInfo.imgFile) {
+    if(!imgInfo) {
         return `${process.env.REACT_APP_DEFAULT_IMAGE}`;
     }
 
     const imageData = new FormData();
-    const image = imgInfo.imgFile[0]
+    const image = imgInfo[0]
     imageData.append('upload_preset', `${process.env.REACT_APP_USER_IMAGE_PRESET}`)
     imageData.append('file', image);
     try {
@@ -80,9 +80,10 @@ export const editUserDetails = (imgInfo) => async dispatch => {
     dispatch({ type:LOADING_USER_DATA })
     try {
         const newUserImage = await imageUpload(imgInfo) 
-        await axiosWithAuth().put('/user', {
+        const test = await axiosWithAuth().put('/user', {
             imageUrl: newUserImage
         })
+        console.log(await test)
     }   
     catch(error) {
         console.log(error)

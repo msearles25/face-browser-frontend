@@ -59,7 +59,7 @@ const Modal = ({ children, ...props }) => {
                 // check if user clicks on just the backdrop
                 // if so close the modal
                 if(e.target === e.currentTarget) {
-                    props.setOpen(false)
+                    props.handleClose()
                 }
             }}
         >
@@ -67,7 +67,7 @@ const Modal = ({ children, ...props }) => {
                 <ModalSeparator justifyContent>
                     <ClickableIcon 
                         icon={faTimes}
-                        onClick={() => props.setOpen(false)}
+                        onClick={() => props.handleClose()}
                     />
                 </ModalSeparator>
                 <ModalSeparator 
@@ -90,7 +90,7 @@ const Modal = ({ children, ...props }) => {
                     <Button
                         width='75px'
                         fontSize='0.9rem'
-                        onClick={() => props.setOpen(false)}
+                        onClick={() => props.handleClose()}
                     >
                         Cancel
                     </Button>
