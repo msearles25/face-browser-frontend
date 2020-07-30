@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationArrow, faLink, faEdit } from '@fortawesome/free-solid-svg-icons';
 
-import { editUserDetails } from '../redux/actions/userActions';
+import { editUserDetails, getUserInfo } from '../redux/actions/userActions';
 
 const ProfileWrapper = styled.div`
     /* background: ${props => props.theme.light.foreground}; */
@@ -99,7 +99,8 @@ const  SideProfile = ({ user, ...props }) => {
     }
 
     const handleSubmit = async () => {
-        props.editUserDetails(imgInfo)
+        props.editUserDetails(imgInfo);
+        props.getUserInfo();
     }
     return (
         !user.loadingUser ? (user.authed ? (
@@ -166,4 +167,4 @@ const mapStateToProps = state => ({
     user: state.user
 })
 
-export default connect(mapStateToProps, { editUserDetails })(SideProfile);
+export default connect(mapStateToProps, { editUserDetails, getUserInfo })(SideProfile);

@@ -79,7 +79,6 @@ export const editUserDetails = (imgInfo) => async dispatch => {
         await axiosWithAuth().put('/user', {
             imageUrl: newUserImage
         })
-        dispatch(getUserInfo());
     }   
     catch(error) {
         console.log(error)
