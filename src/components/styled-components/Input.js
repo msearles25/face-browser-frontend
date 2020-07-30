@@ -11,10 +11,12 @@ export const Input = styled.input`
     font-size: 1.2rem;
     border: none;
     width: 100%;
+    margin: ${props => props.margin};
     border-bottom: 1px solid ${props => props.border ? props.border : props.theme.light.primary};
     background: ${props => props.theme.light.background};
     padding: 5px;
     transition: 0.3s;
+    outline: none;
 `;
 
 export const InputError = styled.div`

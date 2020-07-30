@@ -104,7 +104,8 @@ const Register = props => {
                     />
                     <Button 
                         type='button' 
-                        primary onClick={() => 
+                        primary 
+                        onClick={() => 
                             imageSelectHandler.current.click()
                     }>
                         Chose Image

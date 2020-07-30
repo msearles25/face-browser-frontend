@@ -5,6 +5,7 @@ import styled from 'styled-components';
 // components
 import PostsCard from '../components/PostsCard';
 import { MainWrapper } from '../style/elements';
+import SideProfile from '../components/SideProfile';
 
 const ContentWrapper = styled.div`
     height: 100%;
@@ -17,13 +18,14 @@ const ContentWrapper = styled.div`
 const Separator = styled.div`
     /* border: 1px solid green; */
     width: ${props => props.small 
-        ? '30%' 
+        ? '23%' 
         : props.medium 
             ? '40%' 
             : '60%'
     };
     padding: ${props => props.padding};
     box-sizing: border-box;
+    margin-right: ${props => `${props.marginRight}px`};
 `;
 
 const Home = () => {
@@ -43,13 +45,13 @@ const Home = () => {
             alignFlex='center'
         >
             <ContentWrapper>
-                <Separator >
+                <Separator marginRight='60'>
                     {info && info.map(post => (
                         <PostsCard key={post.postId} post={post}/>
                     ))}
                 </Separator>
-                <Separator medium padding='0 0 0 1rem'>
-                    Profile coming soon...
+                <Separator small padding='0 0 0 1rem'>
+                    <SideProfile />
                 </Separator>
             </ContentWrapper>
         </MainWrapper>
