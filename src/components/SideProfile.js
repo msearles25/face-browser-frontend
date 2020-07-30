@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 
 // components
 import Modal from '../components/Modal';
+import Button from '../components/styled-components/Button';
 import { Input, InputContainer } from '../components/styled-components/Input'
 
 // redux
@@ -34,6 +35,14 @@ const ProfileImage = styled.img`
     object-fit: cover;
     box-shadow: 3px 3px 3px rgba(0,0,0,.15);
 `;
+
+const EditImageContainer = styled.div`
+    position: absolute;
+    bottom: 10px;
+    right: 40px;
+    color: ${props => props.theme.light.primary};
+`;
+
 const ProfileSeparator = styled.div`
     background: ${props => props.background ? props.theme.light.foreground : 'none'};
     width: 200px;
@@ -46,7 +55,7 @@ const ProfileSeparator = styled.div`
         ? '3px 3px 3px rgba(0,0,0,.15)' 
         : 'none'
     };
-
+    position: relative;
 `;
 const UserHandle = styled.h3`
     color: ${props => props.theme.light.primary};
@@ -129,18 +138,19 @@ const  SideProfile = ({ user, ...props }) => {
             <ProfileWrapper>
                 <ProfileSeparator alignCenter>
                     <ProfileImage src={user.info.imageUrl}/>
-                    <input 
-                        type='file' 
-                        onChange={handleImageSubmit}
-                        ref={imageSelectHandler}
-                        hidden='hidden'
-                    />
-                    <ClickableIcon icon={faEdit} 
-                        onClick={() => {
-                            imageSelectHandler.current.click();
-                        }}
-                    />
-                    <button onClick={() => handleOpen()}>open modal</button>
+                    <EditImageContainer>
+                        <input 
+                            type='file' 
+                            onChange={handleImageSubmit}
+                            ref={imageSelectHandler}
+                            hidden='hidden'
+                        />
+                        <ClickableIcon icon={faEdit} 
+                            onClick={() => {
+                                imageSelectHandler.current.click();
+                            }}
+                        />
+                    </EditImageContainer>
                 </ProfileSeparator>
                 <ProfileSeparator 
                     background 
@@ -174,6 +184,12 @@ const  SideProfile = ({ user, ...props }) => {
                             </Body>
                         </InfoWrapper>
                     }
+                    <Button 
+                        onClick={() => handleOpen()}
+                        fontSize='1rem'
+                        primary 
+                        margin='10px 0 0 0'   
+                    >Edit Profile</Button>
                 </ProfileSeparator>
                 <form onSubmit={handleSubmit}>
                     <Modal 

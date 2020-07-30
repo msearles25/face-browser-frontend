@@ -92,6 +92,7 @@ const Modal = ({ children, ...props }) => {
                         width='75px'
                         fontSize='0.9rem'
                         onClick={() => props.handleClose()}
+                        type='button'
                     >
                         Cancel
                     </Button>
