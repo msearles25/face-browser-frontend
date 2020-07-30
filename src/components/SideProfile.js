@@ -85,7 +85,11 @@ const InfoWrapper = styled.div`
 
 const  SideProfile = ({ user, ...props }) => {
     const [modal, setModal] = useState(false);
-    const [edited, setEdited] = useState({});
+    const [edited, setEdited] = useState({
+        location: '',
+        site: '',
+        bio: ''
+    });
     const imageSelectHandler = useRef(null);
 
     const mapInfoToProps = () => {
