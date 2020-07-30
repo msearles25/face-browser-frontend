@@ -8,6 +8,7 @@ export const MainWrapper = styled.div`
     /* display: flex; */
     /* border: 1px solid green; */
     background: ${props=> props.theme.light.background};
+    overflow: ${props => props.overflow};
     
     ${({ flex }) => 
         flex &&

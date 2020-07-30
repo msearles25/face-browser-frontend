@@ -2,6 +2,9 @@ import React, { useState, useRef } from 'react'
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 
+// components
+import Modal from '../components/Modal';
+
 // redux
 import { connect } from 'react-redux';
 
@@ -69,6 +72,7 @@ const InfoWrapper = styled.div`
 `;
 
 const  SideProfile = ({ user, ...props }) => {
+    const [modal, setModal] = useState(true);
     const [imgInfo, setImgInfo] = useState({
         imgSrc: null,
         imgFile: null
@@ -122,6 +126,7 @@ const  SideProfile = ({ user, ...props }) => {
                         />
                         <button type='submit'>submit</button>
                     </form>
+                    <button>open modal</button>
                 </ProfileSeparator>
                 <ProfileSeparator 
                     background 
@@ -156,6 +161,14 @@ const  SideProfile = ({ user, ...props }) => {
                         </InfoWrapper>
                     }
                 </ProfileSeparator>
+                <Modal 
+                    topZero
+                    leftZero
+                    open={modal}
+                    setOpen={setModal}
+                >
+                    this is a test
+                </Modal>
             </ProfileWrapper>
         ) 
         :(<p>login to see profile..</p>)) : (<p>loading...</p>)
