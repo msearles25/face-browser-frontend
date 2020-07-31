@@ -11,6 +11,7 @@ import { TextArea } from './styled-components/Input';
 
 const NavItemButton = styled.div`
     color: ${({ theme }) => theme.light.textContrast};
+    cursor: pointer;
 `;
 const Title = styled.h4`
     margin-left: -250px;
