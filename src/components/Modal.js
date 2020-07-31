@@ -22,7 +22,7 @@ const BackDrop = styled.div`
     visibility: ${props => props.open ? 'visible' : 'hidden'};
     opacity: ${props => props.open ? 1 : 0};
     transition: visibility .4s linear, opacity 0.4s linear;
-    z-index: 1000;
+    z-index:100;
 `;
 const ModalContainer = styled.div`
     /* min-height: 200px; */
@@ -47,6 +47,7 @@ const ModalSeparator = styled.div`
     align-items: ${props => props.alignItems};
     position: relative;
     margin-bottom: ${props => props.bottomMargin};
+    margin-top: ${props => props.topMargin};
     /* border: 1px solid green; */
 `;
 
@@ -76,6 +77,7 @@ const Modal = ({ children, ...props }) => {
                     dirColumn
                     bottomMargin='30px'
                     alignItems='center'
+                    topMargin={props.topMargin}
                 >
                     {children}
                 </ModalSeparator>
@@ -83,10 +85,12 @@ const Modal = ({ children, ...props }) => {
                     <>
                         <ModalSeparator justifyContent>
                             <Button 
-                                primary
+                                primary={props.primary}
                                 width='80px'
                                 fontSize='0.9rem'
                                 margin='0 5px 0 0'
+                                customButtonColor={props.customButtonColor}
+                                lightContrast={props.lightContrast}
                                 type='submit'
                             >
                                 {props.submitButtonText}

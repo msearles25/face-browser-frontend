@@ -50,6 +50,7 @@ const NewPost = ({ addNewPost }) => {
                     leftZero
                     includeButtons
                     submitButtonText='Post'
+                    primary
                 >
                     <Title>Post something new!</Title>
                     <TextArea 

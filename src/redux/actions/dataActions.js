@@ -28,6 +28,7 @@ export const getAllPosts = () => async dispatch => {
 export const deletePost = postId => dispatch => {
     try {
         axiosWithAuth().delete(`/post/${postId}`)
+        console.log(postId)
         dispatch({ type:DELETE_POST, payload: postId })
     }
     catch(error) {
