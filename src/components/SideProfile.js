@@ -172,7 +172,7 @@ const  SideProfile = ({ user, ...props }) => {
                         <InfoWrapper>
                             <FontAwesomeIcon icon={faLocationArrow}/>
                             <Body>
-                                {user.info.location}
+                                {user.info.location}2
                             </Body>
                         </InfoWrapper>
                     }
