@@ -56,6 +56,7 @@ const NewPost = ({ addNewPost }) => {
                     <TextArea 
                         name='postContent'
                         onChange={handleChange}
+                        placeholder='Say something...'
                     />
                 </Modal>
             </form>

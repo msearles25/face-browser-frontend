@@ -31,7 +31,7 @@ const Separator = styled.div`
     margin-right: ${props => `${props.marginRight}px`};
 `;
 
-const Home = ({ data, getAllPosts }) => {
+const Home = ({ data, getAllPosts, ...props }) => {
     useEffect(() => {
     
         const allPosts = async () => {
@@ -53,7 +53,7 @@ const Home = ({ data, getAllPosts }) => {
                     ))}
                 </Separator>
                 <Separator small padding='0 0 0 1rem'>
-                    <SideProfile />
+                    <SideProfile history={props.history}/>
                 </Separator>
             </ContentWrapper>
         </MainWrapper>
