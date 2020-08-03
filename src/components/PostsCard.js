@@ -4,6 +4,12 @@ import styled from 'styled-components';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
+// components
+import DeletePost from './DeletePost';
+
+// redux
+import { connect } from 'react-redux';
+
 const CardWrapper = styled.div`
     position:relative;
     min-height: 100px;
@@ -74,7 +80,7 @@ const StyledLink = styled(Link)`
     text-decoration: none;
 `;
 
-const PostsCard = ({ post }) => {
+const PostsCard = ({ user, post, deletePost }) => {
     dayjs.extend(relativeTime);
     return (
         <CardWrapper>
@@ -91,6 +97,13 @@ const PostsCard = ({ post }) => {
                     <Date>
                         {dayjs(post.createdOn).fromNow()}
                     </Date>
+                    {post.userHandle === user.info.userHandle &&
+                        // passing the postId down to the component
+                        <DeletePost postId={post.postId}/>
+                        // <button onClick={() => {
+                        //     deletePost(post.postId)
+                        // }}>delete</button>
+                    }
                 </InforWrapper>
                 <BodyWrapper>
                     <Body>
@@ -98,8 +111,13 @@ const PostsCard = ({ post }) => {
                     </Body>
                 </BodyWrapper>
             </CardContent>
+          
         </CardWrapper>
     )
 }
 
-export default PostsCard;
+const mapStateToProps = state => ({
+    user: state.user
+})
+
+export default connect(mapStateToProps)(PostsCard);

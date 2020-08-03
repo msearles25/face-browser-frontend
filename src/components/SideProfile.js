@@ -204,6 +204,7 @@ const  SideProfile = ({ user, ...props }) => {
                         handleClose={handleClose}
                         includeButtons
                         submitButtonText='Save'
+                        primary
                     >
                         <InputContainer
                             width='300px'

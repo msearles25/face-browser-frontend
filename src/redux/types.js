@@ -12,3 +12,4 @@ export const LOADING_UI = 'LOADING_UI';
 // post types
 export const SET_POSTS = 'SET_POSTS';
 export const NEW_POST = 'NEW_POST';
+export const DELETE_POST = 'DELETE_POST'; 

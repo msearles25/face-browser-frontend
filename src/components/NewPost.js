@@ -11,6 +11,7 @@ import { TextArea } from './styled-components/Input';
 
 const NavItemButton = styled.div`
     color: ${({ theme }) => theme.light.textContrast};
+    cursor: pointer;
 `;
 const Title = styled.h4`
     margin-left: -250px;
@@ -49,6 +50,7 @@ const NewPost = ({ addNewPost }) => {
                     leftZero
                     includeButtons
                     submitButtonText='Post'
+                    primary
                 >
                     <Title>Post something new!</Title>
                     <TextArea 
