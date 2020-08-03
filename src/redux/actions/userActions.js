@@ -25,7 +25,7 @@ export const loginUser = (user, history) => async dispatch => {
         const userToken = await axios.post('http://localhost:1337/api/auth/login', user);
         localStorage.setItem('token', userToken.data.token)   
         dispatch(getUserInfo());
-        dispatch(authUser())
+        dispatch(authUser());
         dispatch(clearAllErrors());
         history.push('/')
     }
@@ -35,9 +35,10 @@ export const loginUser = (user, history) => async dispatch => {
     }
 }
 
-export const logoutUser = () => dispatch => {
+export const logoutUser = history => dispatch => {
     localStorage.removeItem('token');
     dispatch({ type:SET_UNAUTHENTICATED });
+    history.push('/login')
 }
 
 export const registerUser = (newUser, imageUpload, imgInfo, history) => async dispatch => {
@@ -93,3 +94,4 @@ export const editUserDetails = (newImgInfo, updatedInfo) => async dispatch => {
         console.log(error)
     }
 }
+

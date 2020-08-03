@@ -7,6 +7,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 // components
 import DeletePost from './DeletePost';
 
+
 // redux
 import { connect } from 'react-redux';
 
@@ -85,7 +86,7 @@ const PostsCard = ({ user, post, deletePost }) => {
     return (
         <CardWrapper>
             <CardContent>
-                <StyledLink to={`/${post.userHandle}`}>
+                <StyledLink to={`/users/${post.userHandle}`}>
                     <UserImage src={post.imageUrl}/>
                 </StyledLink>
                 <InforWrapper>
@@ -99,10 +100,7 @@ const PostsCard = ({ user, post, deletePost }) => {
                     </Date>
                     {post.userHandle === user.info.userHandle &&
                         // passing the postId down to the component
-                        <DeletePost postId={post.postId}/>
-                        // <button onClick={() => {
-                        //     deletePost(post.postId)
-                        // }}>delete</button>
+                            <DeletePost postId={post.postId}/>
                     }
                 </InforWrapper>
                 <BodyWrapper>

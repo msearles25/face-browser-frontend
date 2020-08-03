@@ -16,7 +16,7 @@ export const addNewPost = post => async dispatch => {
     }
 }
 export const getAllPosts = () => async dispatch => {
-    dispatch({ type:LOADING_UI });
+    // dispatch({ type:LOADING_UI });
     try {
         const response = await axios.get('http://localhost:1337/api/post')
         dispatch({ type:SET_POSTS, payload: response.data})
@@ -28,7 +28,6 @@ export const getAllPosts = () => async dispatch => {
 export const deletePost = postId => dispatch => {
     try {
         axiosWithAuth().delete(`/post/${postId}`)
-        console.log(postId)
         dispatch({ type:DELETE_POST, payload: postId })
     }
     catch(error) {

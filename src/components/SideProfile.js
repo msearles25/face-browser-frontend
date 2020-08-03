@@ -5,7 +5,8 @@ import dayjs from 'dayjs';
 // components
 import Modal from '../components/Modal';
 import Button from '../components/styled-components/Button';
-import { Input, InputContainer } from '../components/styled-components/Input'
+import { Input, InputContainer } from '../components/styled-components/Input';
+import Logout from './Logout';
 
 // redux
 import { connect } from 'react-redux';
@@ -143,6 +144,7 @@ const  SideProfile = ({ user, ...props }) => {
             <ProfileWrapper>
                 <ProfileSeparator alignCenter>
                     <ProfileImage src={user.info.imageUrl}/>
+                    <Logout history={props.history}/>
                     <EditImageContainer>
                         <input 
                             type='file' 
@@ -194,7 +196,9 @@ const  SideProfile = ({ user, ...props }) => {
                         fontSize='1rem'
                         primary 
                         margin='10px 0 0 0'   
-                    >Edit Profile</Button>
+                    >
+                        Edit Profile
+                    </Button>
                 </ProfileSeparator>
                 <form onSubmit={handleSubmit}>
                     <Modal 
