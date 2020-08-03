@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react'
-import axios from 'axios';
 
 // styled components imports
 import { MainWrapper } from '../style/elements';
@@ -7,12 +6,16 @@ import Button from '../components/styled-components/Button';
 import { InputContainer, Input, InputError } from '../components/styled-components/Input';
 import { Form, FormSeparator, Img } from '../components/styled-components/Form';
 
+// redux
 import { connect } from 'react-redux';
 import { registerUser } from '../redux/actions/userActions';
 import { clearAllErrors } from '../redux/actions/uiActions';
 
+// util functions
+import { imageUpload } from '../utils/utils';
+
 const Register = props => {
-    const { ui } = props;
+    const { ui, clearAllErrors } = props;
     const [imgInfo, setImgInfo] = useState({
         imgSrc: null,
         imgFile: null
@@ -27,9 +30,9 @@ const Register = props => {
             setErrors({ ...ui.errors })
         }
         return () => {
-            props.clearAllErrors()
+            clearAllErrors()
         }
-    }, [ui.errors])
+    }, [ui.errors, clearAllErrors])
 
     // handles the users uploaded image
     const handleImageUpload = e => {
@@ -55,42 +58,27 @@ const Register = props => {
         
     }
     const handleChange = e => {
-
         if(errors) {
             setErrors({
                 ...errors,
                 [e.target.name]: null
             })
         }
-
         setNewUser({
             ...newUser,
             [e.target.name]: e.target.value
         })
     }
-    // uploads the image to cloudinary
-    const imageUpload = async () => {
-        if(!imgInfo.imgFile) {
-            return `${process.env.REACT_APP_DEFAULT_IMAGE}`;
-        }
-
-        const imageData = new FormData();
-        const image = imgInfo.imgFile[0]
-        imageData.append('upload_preset', `${process.env.REACT_APP_UPLOAD_PRESET}`)
-        imageData.append('file', image);
-        try {
-            const imageUrl = await axios.post(`${process.env.REACT_APP_IMAGE_UPLOAD_URL}`, imageData)
-            return await imageUrl.data.secure_url;
-        }
-        catch(error) {
-            console.log(error.response)
-            return `${process.env.REACT_APP_DEFAULT_IMAGE}`;
-        }
-    }
+   
     const handleSubmit = e => {
         e.preventDefault();
         
-        props.registerUser(newUser, imageUpload, props.history)
+        props.registerUser(
+            newUser, 
+            imageUpload, 
+            imgInfo,
+            props.history
+        )
     }
     
     return (
@@ -116,7 +104,8 @@ const Register = props => {
                     />
                     <Button 
                         type='button' 
-                        primary onClick={() => 
+                        primary 
+                        onClick={() => 
                             imageSelectHandler.current.click()
                     }>
                         Chose Image

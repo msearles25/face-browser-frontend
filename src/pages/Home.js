@@ -1,40 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import styled from 'styled-components';
+import React, { useEffect } from 'react';
 
 // components
 import PostsCard from '../components/PostsCard';
-import { MainWrapper } from '../style/elements';
+import { MainWrapper, ContentWrapper, Separator } from '../style/elements';
+import SideProfile from '../components/SideProfile';
 
-const ContentWrapper = styled.div`
-    height: 100%;
-    width: 75%;
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center;
-    /* border: 1px solid red; */
-`;
-const Separator = styled.div`
-    /* border: 1px solid green; */
-    width: ${props => props.small 
-        ? '30%' 
-        : props.medium 
-            ? '40%' 
-            : '60%'
-    };
-    padding: ${props => props.padding};
-    box-sizing: border-box;
-`;
+// redux
+import { connect } from 'react-redux';
+import { getAllPosts } from '../redux/actions/dataActions';
 
-const Home = () => {
-    const [info, setInfo] = useState();
-
+const Home = ({ data, getAllPosts, ...props }) => {
     useEffect(() => {
-        axios.get('http://localhost:1337/api/post/')
-        .then(res => {
-            setInfo(res.data)
-        })
-    }, [])
+    
+        const allPosts = async () => {
+            return await getAllPosts();
+        }
+        allPosts();
+    }, [getAllPosts])
 
     return (
         <MainWrapper 
@@ -43,17 +25,21 @@ const Home = () => {
             alignFlex='center'
         >
             <ContentWrapper>
-                <Separator >
-                    {info && info.map(post => (
+                <Separator marginRight='60'>
+                    {data.posts && data.posts.map(post => (  
                         <PostsCard key={post.postId} post={post}/>
                     ))}
                 </Separator>
-                <Separator medium padding='0 0 0 1rem'>
-                    Profile coming soon...
+                <Separator small padding='0 0 0 1rem'>
+                    <SideProfile history={props.history}/>
                 </Separator>
             </ContentWrapper>
         </MainWrapper>
     )
 }
 
-export default Home;
+const mapStateToProps = state => ({
+    data: state.data
+})
+
+export default connect(mapStateToProps, { getAllPosts })(Home);

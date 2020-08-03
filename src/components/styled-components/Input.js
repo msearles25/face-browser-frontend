@@ -11,15 +11,30 @@ export const Input = styled.input`
     font-size: 1.2rem;
     border: none;
     width: 100%;
+    margin: ${props => props.margin};
     border-bottom: 1px solid ${props => props.border ? props.border : props.theme.light.primary};
     background: ${props => props.theme.light.background};
     padding: 5px;
     transition: 0.3s;
+    outline: none;
+`;
+export const TextArea = styled.textarea`
+    box-sizing: border-box;
+    height: 7rem;
+    font-size: 1.2rem;
+    border: none;
+    width: 400px;
+    margin: ${props => props.margin};
+    border-bottom: 1px solid ${props => props.border ? props.border : props.theme.light.primary};
+    background: ${props => props.theme.light.background};
+    padding: 5px;
+    transition: 0.3s;
+    outline: none;
+    resize:none;
 `;
 
 export const InputError = styled.div`
     font-size: .8rem;
-    /* height: 3rem; */
     padding: 5px;
     background: red;
     color: white;
@@ -28,7 +43,7 @@ export const InputError = styled.div`
     bottom: ${props => props.bottom ? `${props.bottom}%` : '10%'};
     left: ${props => props.left ? `${props.left}%` : '80%'};
     margin-left: 60px;
-    min-width: 180px !important;
+    min-width: 160px;
 
     &::after {
         content: '';
