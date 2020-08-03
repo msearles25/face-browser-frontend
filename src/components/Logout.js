@@ -16,14 +16,13 @@ const LogoutContainer = styled.div`
     left: 40px;
     bottom: 10px;
     color: red;
+    cursor: pointer;
 `;
 
 const Logout = ({ history, logoutUser }) => {
     return (
         <LogoutContainer onClick={() => {
-            // localStorage.removeItem('token');
             logoutUser(history);
-            // history.push('/login');
         }}>
             <FontAwesomeIcon icon={faSignOutAlt}/>
         </LogoutContainer>
