@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import User from './pages/User';
 
 // styled components
 import { ThemeProvider } from 'styled-components';
@@ -48,6 +49,7 @@ const App = props => {
           <Route exact path='/' component={Home}/>
           <Route exact path='/login' component={Login}/>
           <Route exact path='/register' component={Register}/>
+          <Route path='/users/:userHandle' component={User}/>
         </Switch>
       </div>
     </ThemeProvider>
