@@ -79,6 +79,7 @@ const StaticProfile = props => {
             >
                 <UserHandle>
                     @{props.user.userHandle}
+                    <span>{dayjs(props.user.joinedOn).format('MMM YYYY')}</span>
                 </UserHandle>
                 {props.user.location && 
                     <InfoWrapper>
