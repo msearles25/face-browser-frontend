@@ -12,7 +12,7 @@ const User = ({ match }) => {
     useEffect(() => {
         const info = async () => {
             try {
-                const response = await axios.get(`http://localhost:1337/api/user/${match.params.userHandle}`);
+                const response = await axios.get(`https://face-browser.herokuapp.com/api/user/${match.params.userHandle}`);
                 setUserInfo(response.data);
             }
             catch(error) {
