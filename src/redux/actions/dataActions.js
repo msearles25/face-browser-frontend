@@ -18,7 +18,7 @@ export const addNewPost = post => async dispatch => {
 export const getAllPosts = () => async dispatch => {
     // dispatch({ type:LOADING_UI });
     try {
-        const response = await axios.get('https://face-browser.herokuapp.com/api/post')
+        const response = await axios.get('https://face-browser.herokuapp.com/api/post') // these should be changed???????
         dispatch({ type:SET_POSTS, payload: response.data})
     }
     catch(error) {
